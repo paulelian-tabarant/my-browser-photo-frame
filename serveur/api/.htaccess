@@ -12,4 +12,6 @@ RewriteRule ^ %1 [R,L,NC]
 RewriteCond %{REQUEST_FILENAME}.php -f
 RewriteRule ^ %{REQUEST_URI}.php [L]
 
-Header set Access-Control-Allow-Origin "*"
+php_value session.auto_start 1
+# Header set Access-Control-Allow-Origin *
+
