@@ -1,1 +1,9 @@
 /images
+
+3rdpartylicenses.txt
+favicon.ico
+index.html
+main-es*
+polyfills-es*
+runtime-es*
+styles.*
