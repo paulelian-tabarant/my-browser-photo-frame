@@ -1,4 +1,6 @@
-<h1 *ngIf="name">{{ name }}</h1>
-<p *ngIf="description">{{ description }}</p>
-<app-slideshow *ngIf="name"></app-slideshow>
-<p *ngIf="!name">Album login failed. Please try and login again.</p>
+<div *ngIf="loggedIn">
+    <h1>{{ name }}</h1>
+    <p>{{ description }}</p>
+    <app-slideshow></app-slideshow>
+</div>
+<p *ngIf="!loggedIn">Album login failed. Please try and login again.</p>

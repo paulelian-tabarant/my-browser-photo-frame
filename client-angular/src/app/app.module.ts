@@ -22,7 +22,7 @@ import { AlbumComponent } from './album/album.component';
     RouterModule.forRoot([
       { path: '', component: AlbumLoginComponent },
       { path: 'album', component: AlbumComponent },
-    ]),
+    ], { useHash: true }),
     SlideshowModule,
     HttpClientModule,
     FormsModule,

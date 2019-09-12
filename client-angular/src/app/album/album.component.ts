@@ -1,6 +1,6 @@
 import { Component, OnInit, NgModule } from '@angular/core';
 
-import { AuthenticationService } from '../authentication.service';
+import { AuthenticationService, AlbumInfo } from '../authentication.service';
 import { PhotosManagerService } from '../photos-manager.service';
 
 @Component({
@@ -10,6 +10,8 @@ import { PhotosManagerService } from '../photos-manager.service';
 })
 export class AlbumComponent implements OnInit {
 
+  loggedIn: boolean = false;
+
   name: string;
   description: string;
 
@@ -18,9 +20,12 @@ export class AlbumComponent implements OnInit {
     private photosManagerService: PhotosManagerService) { }
 
   ngOnInit() {
-    this.authService.selectedAlbum.subscribe(albumName => {
-      this.name = albumName;
-    });
+    this.authService.getAlbumInfo()
+      .then((albumInfo : AlbumInfo) => {
+        this.name = albumInfo.name;
+        this.description = albumInfo.description;
+        this.loggedIn = true;
+      });
   }
 
 }

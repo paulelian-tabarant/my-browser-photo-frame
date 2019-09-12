@@ -25,12 +25,11 @@
 
 		$albumID = $_SESSION["albumLoaded"];
 		$lastContentArray = listPhotosInAlbum($dbConn, $albumID);
+
+		// Condition for sending the event to the client
 		if (sizeof($lastContentArray) != sizeof($_SESSION["lastContentArray"])) {
 			echo 'data: ' . PHP_EOL;
 			echo PHP_EOL;
-
-			ob_flush();
-			flush();
 		}
 
 	}

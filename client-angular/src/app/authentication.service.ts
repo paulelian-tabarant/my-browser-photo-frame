@@ -3,13 +3,15 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Config } from './config';
 import { BehaviorSubject } from 'rxjs';
 
+export class AlbumInfo {
+  name: string;
+  description: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
 export class AuthenticationService {
-
-  private selectedAlbumSource = new BehaviorSubject("");
-  selectedAlbum = this.selectedAlbumSource.asObservable();
 
   constructor(private http: HttpClient) { }
 
@@ -30,8 +32,18 @@ export class AuthenticationService {
         'albumPassword': albumPassword, 
       }))
       .toPromise()
-      .then(() => {
-        this.selectedAlbumSource.next(albumName);
+      .catch((error) => {
+        AuthenticationService.handleError(error);
+      });
+  }
+
+  getAlbumInfo() {
+    const url = `${Config.apiUrl}/albumInfo`;
+
+    return this.http.get(url)
+      .toPromise()
+      .then((albumInfo) => {
+        return albumInfo as AlbumInfo;
       })
       .catch(AuthenticationService.handleError);
   }
