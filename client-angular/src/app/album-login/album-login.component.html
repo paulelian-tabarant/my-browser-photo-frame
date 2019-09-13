@@ -1,11 +1,18 @@
-<h2>Album login page</h2>
-<p>Use your album login and password to see photos.</p>
-<form name="albumLoginForm" method="post" (submit)="sendLogin()">
-    <label for="albumName">Album name:</label>
-    <input [(ngModel)]="albumName" id=albumName type=text name=albumName size=12 required>
-    <label for=albumPassword>Password:</label>
-    <input [(ngModel)]="albumPassword" id=albumPassword type="password" name=albumPassword size=12 required>
-    <input type="submit" value="Load album content">
-</form>
+<section>
+    <h2>Album login page</h2>
+    <p>Use your album login and password to see photos.</p>
+    <form name="albumLoginForm" method="post" (submit)="sendLogin()">
+        <label for="albumName">Album name:</label>
+        <input [(ngModel)]="albumName" id=albumName type=text name=albumName size=12 required>
+        <label for=albumPassword>Password:</label>
+        <input [(ngModel)]="albumPassword" id=albumPassword type="password" name=albumPassword size=12 required>
+        <input type="submit" value="Load album content">
+    </form>
+</section>
+<section>
+    <a [routerLink]="['/userLogin']">
+        Manage your albums
+    </a>
+</section>
 
 

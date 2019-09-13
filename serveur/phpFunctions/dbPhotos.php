@@ -17,4 +17,19 @@
 
         return $photosArray;
     }
+
+    function getAlbumOfImage($dbConn, $imageFileName) {
+        $albumID_SQL = "SELECT albumID from tPhotos WHERE ";
+        $albumID_SQL .= "fileName = '" . $imageFileName . "'";
+
+        $albumID_res = mysqli_query($dbConn, $albumID_SQL);
+
+        while ($row = mysqli_fetch_array($albumID_res, MYSQLI_ASSOC)) {
+            $albumID = $row['albumID'];
+        }
+
+        mysqli_free_result($albumID_res);
+
+        return $albumID;
+    }
 ?>

@@ -1,7 +1,7 @@
-import { Component, OnInit, NgModule } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
-import { AuthenticationService, AlbumInfo } from '../authentication.service';
-import { PhotosManagerService } from '../photos-manager.service';
+import { PhotosManagerService, AlbumInfo } from '../photos-manager.service';
 
 @Component({
   selector: 'app-album',
@@ -16,13 +16,14 @@ export class AlbumComponent implements OnInit {
   description: string;
 
   constructor(
-    private authService: AuthenticationService,
-    private photosManagerService: PhotosManagerService) { }
+    private photosManagerService: PhotosManagerService,
+    private route: ActivatedRoute) { }
 
   ngOnInit() {
-    this.authService.getAlbumInfo()
+    this.name = this.route.snapshot.paramMap.get('name');
+
+    this.photosManagerService.getAlbumInfo(this.name)
       .then((albumInfo : AlbumInfo) => {
-        this.name = albumInfo.name;
         this.description = albumInfo.description;
         this.loggedIn = true;
       });

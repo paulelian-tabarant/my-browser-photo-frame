@@ -1,4 +1,5 @@
 <?php
+
     // DB connection script
 	include_once('../../htconfig/dbConfig.php'); 
 	$dbSuccess = false;
@@ -21,11 +22,16 @@
 
         // Get album ID from last login attempt
         $albumID = $_SESSION["albumLoaded"];
+        $userID = $_SESSION["userLogged"];
+        
+        $reqAlbumName = $_GET["album"];
+        $reqAlbumID = getAlbumIDByName($dbConn, $reqAlbumName);
 
-        // We can recover album content from "tPhotos" database
-        if (isset($albumID)) {
+        // Condition : either logged in to view the album
+        // or client is logged as a user owning this album
+        if (($albumID == $reqAlbumID) OR userIsAlbumOwner($dbConn, $userID, $reqAlbumName)) {
 
-            $photosArray = listPhotosInAlbum($dbConn, $albumID);
+            $photosArray = listPhotosInAlbum($dbConn, $reqAlbumID);
 
             if (empty($photosArray)) {
                 http_response_code(404);

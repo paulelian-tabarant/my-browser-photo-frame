@@ -1,0 +1,9 @@
+<section>
+    <form name="userLoginForm" method="post" (submit)="sendLogin()">
+        <label for="username">Username</label>
+        <input [(ngModel)]="username" id="username" name="username" type="text" required>
+        <label for="password">Password</label>
+        <input [(ngModel)]="password" id="password" name="password" type="password" required>
+        <input type="submit" value="Login">
+    </form>
+</section>

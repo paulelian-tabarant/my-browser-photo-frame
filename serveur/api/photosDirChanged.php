@@ -1,9 +1,10 @@
 <?php
-/**
- * Checks for image directory changes and notifies the client
- * when a change occurs.
- */
-    // DB connection script
+	/**
+	 * Checks for image directory changes and notifies the client
+	 * when a change occurs.
+	 */
+
+	// DB connection script
 	include_once('../../htconfig/dbConfig.php'); 
 	$dbSuccess = false;
 	$dbConn = mysqli_connect($db['hostname'],$db['username'],$db['password']);
@@ -24,6 +25,10 @@
 		header('Cache-Control: no-cache');
 
 		$albumID = $_SESSION["albumLoaded"];
+		// Temporary fix : connection should be closed on client side
+		if (!isset($albumID)) {
+			exit();
+		}
 		$lastContentArray = listPhotosInAlbum($dbConn, $albumID);
 
 		// Condition for sending the event to the client

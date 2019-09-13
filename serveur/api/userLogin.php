@@ -20,16 +20,19 @@
 		$data = json_decode(file_get_contents("php://input"));
 		$data = (array) $data;
 
-		$albumName = $data["albumName"];
-		$albumPassword = $data["albumPassword"];
+		$username = $data["username"];
+		$password = $data["password"];
 
-		if (!albumAuth($dbConn, $albumName, $albumPassword)) {
+		if (!userAuth($dbConn, $username, $password)) {
 			http_response_code(403);
 		}
 		else {
 			http_response_code(200);
 		}
-	}
+    }
 
-
+    else {
+        http_response_code(500);
+    }
+    
 ?>

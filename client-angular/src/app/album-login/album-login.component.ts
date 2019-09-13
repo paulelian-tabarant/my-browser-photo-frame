@@ -27,8 +27,8 @@ export class AlbumLoginComponent implements OnInit {
 
       this.authService.albumLogin(this.albumName, this.albumPassword)
         .then(() => {
-          this.router.navigate(['/album']);
-        })
+          this.router.navigate([`/albumView/${this.albumName}`]);
+        });
     }
   }
 

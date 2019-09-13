@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 import { PhotosManagerService } from '../photos-manager.service';
 
@@ -8,6 +8,8 @@ import { PhotosManagerService } from '../photos-manager.service';
   styleUrls: ['./slideshow.component.less']
 })
 export class SlideshowComponent implements OnInit {
+
+  @Input() albumName: string;
 
   imageUrlArray: string[] = [];
 
@@ -26,13 +28,12 @@ export class SlideshowComponent implements OnInit {
   }
 
   updateContent() {
-    this.photosManagerService.getPhotos()
-      .subscribe((photosUrls: string[]) => {
+    this.photosManagerService.getPhotosList(this.albumName)
+      .then((photosUrls: string[]) => {
         // Add the host prefix to each server image url
-        this.imageUrlArray = photosUrls.map( 
-          url => "http://localhost/images/" + url
-        )
-      } )
+        this.imageUrlArray = photosUrls;
+      })
+      .catch((error) => console.log);
   }
 
 }

@@ -1,0 +1,17 @@
+<section *ngIf="loggedIn">
+    <div>
+        <p>Bonjour, {{ username }}</p>
+    </div>
+    <div>
+        <h1>Vos albums</h1>
+        <ul>
+            <li *ngFor="let album of albumsList">
+                <a routerLink="/albumEdit/{{album}}">{{ album }}</a>
+            </li>
+        </ul>
+    </div>
+</section>
+<section *ngIf="!loggedIn">
+    <h1>Accès refusé</h1>
+    <p>Authentifiez-vous pour pouvoir consulter vos albums.</p>
+</section>
