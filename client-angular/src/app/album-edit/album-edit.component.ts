@@ -21,6 +21,7 @@ export class AlbumEditComponent implements OnInit {
   photosList: string[];
   
   uploader: FileUploader;
+  response: string;
 
   constructor(private route: ActivatedRoute,
               private photosManagerService: PhotosManagerService) { }
@@ -49,15 +50,18 @@ export class AlbumEditComponent implements OnInit {
         'album': this.albumName
       },
     });
-  }
 
-  proceedUpload() {
-    this.uploader.uploadAll();
+    this.uploader.response.subscribe(() => {
+      this.loadAlbumContent(this.albumName)
+    });
   }
 
   deletePhoto(srcPath: string) {
     this.photosManagerService.deletePhoto(srcPath)
-      .then(() => this.loadAlbumContent(this.albumName))
+      .then(() => {
+        alert('Photo correctement supprimée.');
+        this.loadAlbumContent(this.albumName)
+      })
       .catch(() => alert);
   }
 
