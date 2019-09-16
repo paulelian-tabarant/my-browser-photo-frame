@@ -13,6 +13,10 @@ export class UserMenuComponent implements OnInit {
   username: string;
   albumsList: string[];
 
+  file: any;
+  errFile: any;
+  errorMsg: any;
+
   loggedIn: boolean = false;
 
   constructor(

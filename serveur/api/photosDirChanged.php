@@ -19,6 +19,7 @@
 	} 
 
 	if ($dbSuccess) {
+        include_once('../../htconfig/varConfig.php');
 
 		include_once('../phpFunctions/dbPhotos.php');
 		header('Content-Type: text/event-stream');
@@ -32,7 +33,7 @@
 		$lastContentArray = listPhotosInAlbum($dbConn, $albumID);
 
 		// Condition for sending the event to the client
-		if (sizeof($lastContentArray) != sizeof($_SESSION["lastContentArray"])) {
+		if (sizeof($lastContentArray) != sizeof($_SESSION["photosDirContent"])) {
 			echo 'data: ' . PHP_EOL;
 			echo PHP_EOL;
 		}

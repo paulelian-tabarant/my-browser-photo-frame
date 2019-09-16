@@ -1,0 +1,1 @@
+- Bien ajouter les droits d'exécution sur les dossiers utilisés dans les scripts (ex. phpFunctions, images...) à l'utilisateur courant par un `chmod 777 <dossier>`

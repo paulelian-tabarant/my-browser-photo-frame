@@ -32,4 +32,22 @@
 
         return $albumID;
     }
+
+    function addPhotoToAlbum($dbConn, $fileName, $albumID) {
+        $addPhoto_SQL = "INSERT INTO tPhotos (fileName, albumID) ";
+        $addPhoto_SQL .= "VALUES ('" . $fileName . "', " . $albumID . ")";
+
+        $addPhoto_res = mysqli_query($dbConn, $addPhoto_SQL);
+
+        mysqli_free_result($addPhoto_res);
+    }
+
+    function deletePhoto($dbConn, $photoName) {
+        $deletePhoto_SQL = "DELETE FROM tPhotos ";
+        $deletePhoto_SQL .= " WHERE fileName = '" . $photoName . "'";
+
+        $deletePhoto_SQL = mysqli_query($dbConn, $deletePhoto_SQL);
+
+        mysqli_free_result($deletePhoto_SQL);
+    }
 ?>

@@ -1,10 +1,19 @@
+
+<h1>Éditer l'album {{albumName}}</h1>
+<p>{{albumDescription}}</p>
 <section>
-    <h1>Éditer l'album {{albumName}}</h1>
-    <p>{{albumDescription}}</p>
+    <h2>Ajouter une photo</h2>
+    <input type="hidden" name="albumName" value="albumName">
+    <input type="file" ng2FileSelect [uploader]="uploader">
+    <button type="button"
+        (click)="proceedUpload()" [disabled]="!uploader.getNotUploadedItems().length">
+        Upload all
+    </button>
 </section>
 <section>
-    <h1>Photos</h1>
-    <a *ngFor="let photo of photosList">
+    <h2>Photos actuelles</h2>
+    <div *ngFor="let photo of photosList">
         <img [src]=photo width="500px">
-    </a>
+        <button (click)="deletePhoto(photo)">Supprimer</button>
+    </div>
 </section>

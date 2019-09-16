@@ -1,4 +1,5 @@
 <?php
+    include_once('../../htconfig/varConfig.php');
     include_once('dbAlbums.php');
 
     function albumAuth($dbConn, $albumName, $albumPassword) {

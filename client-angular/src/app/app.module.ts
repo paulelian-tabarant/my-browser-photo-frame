@@ -4,6 +4,7 @@ import { RouterModule } from '@angular/router';
 import { SlideshowModule } from 'ng-simple-slideshow';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
+import { FileUploadModule } from 'ng2-file-upload';
 
 import { AppComponent } from './app.component';
 import { SlideshowComponent } from './slideshow/slideshow.component';
@@ -35,6 +36,7 @@ import { UserLoginComponent } from './user-login/user-login.component';
     SlideshowModule,
     HttpClientModule,
     FormsModule,
+    FileUploadModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

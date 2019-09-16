@@ -13,9 +13,9 @@
         return $ID;
     }
 
-    function userIsAlbumOwner($dbConn, $userID, $albumName) {
+    function userIsAlbumOwner($dbConn, $userID, $albumID) {
         $getOwnerID_SQL = "SELECT ownerID from tAlbums ";
-        $getOwnerID_SQL .= "WHERE name='" . $albumName ."'";
+        $getOwnerID_SQL .= "WHERE ID = " . $albumID;
 
         $getOwnerID_res = mysqli_query($dbConn, $getOwnerID_SQL);
 

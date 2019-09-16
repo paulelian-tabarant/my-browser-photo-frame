@@ -14,6 +14,7 @@
     } 
 
     if ($dbSuccess) {
+        include_once('../../htconfig/varConfig.php');
         include_once('../phpFunctions/dbAlbums.php');
 
         $albumName = $_GET["name"];
@@ -24,8 +25,9 @@
 
         // Check if the client has the right to access the album
         // (either logged to view the album or logged as the album owner)
-        if (($reqAlbumID != $albumID) AND (!userIsAlbumOwner($dbConn, $loggedUserID, $albumName))) {
-            http_response_code(403);
+        if (($reqAlbumID != $albumID) AND (!userIsAlbumOwner($dbConn, $loggedUserID, $reqAlbumID))) {
+            http_response_code(401);
+            echo 'Access to this album was not granted.';
         }
         else {
             $selectAlbum_SQL = "SELECT name, description FROM tAlbums ";

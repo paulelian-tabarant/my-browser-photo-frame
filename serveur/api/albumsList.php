@@ -15,8 +15,9 @@
     } 
     
     if ($dbSuccess) {
+        include_once('../../htconfig/varConfig.php');
 
-        $userID = $_SESSION['userLogged'];
+        $userID = $_SESSION["userLogged"];
         if (isset($userID)) {
             include_once('../phpFunctions/dbAlbums.php');
             $albumsList = listAlbumsOfUser($dbConn, $userID);
@@ -29,7 +30,7 @@
             }
         }
         else {
-            http_response_code(403);
+            http_response_code(401);
         }
 
     }

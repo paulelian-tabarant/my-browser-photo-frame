@@ -15,6 +15,7 @@
 	} 
 
 	if ($dbSuccess) {
+        include_once('../../htconfig/varConfig.php');
 		include_once('../phpFunctions/dbAuth.php');
 
 		$data = json_decode(file_get_contents("php://input"));

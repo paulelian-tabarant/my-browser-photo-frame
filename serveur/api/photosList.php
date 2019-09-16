@@ -15,7 +15,7 @@
     } 
 
     if ($dbSuccess) {
-
+        include_once('../../htconfig/varConfig.php');
         include_once('../phpFunctions/dbAlbums.php');
         include_once('../phpFunctions/dbPhotos.php');
     
@@ -29,7 +29,7 @@
 
         // Condition : either logged in to view the album
         // or client is logged as a user owning this album
-        if (($albumID == $reqAlbumID) OR userIsAlbumOwner($dbConn, $userID, $reqAlbumName)) {
+        if (($albumID == $reqAlbumID) OR userIsAlbumOwner($dbConn, $userID, $reqAlbumID)) {
 
             $photosArray = listPhotosInAlbum($dbConn, $reqAlbumID);
 
@@ -40,13 +40,13 @@
             else {
                 // store the lastly delivered list of photos
                 // to monitor changes in database content
-                $_SESSION["lastContentArray"] = $photosArray;
+                $_SESSION["photosDirContent"] = $photosArray;
 
                 echo json_encode($photosArray);
             }
         }
         else {
-            http_response_code(403);
+            http_response_code(401);
             echo 'Access to this album was not granted.';
         }
     }

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Config } from './config';
 
@@ -64,6 +64,18 @@ export class PhotosManagerService {
       .then((albumInfo) => {
         return albumInfo as AlbumInfo;
       })
+      .catch(PhotosManagerService.handleError);
+  }
+
+  deletePhoto(path: string) {
+    // Remove directory path from name for the request (useless)
+    const basename = path.replace(this.photosDir, '');
+    const url = `${Config.apiUrl}/deletePhoto`;
+
+    return this.http.post(url, JSON.stringify({
+        name: basename
+      }))
+      .toPromise()
       .catch(PhotosManagerService.handleError);
   }
 }
