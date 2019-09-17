@@ -10,7 +10,7 @@ const uploadUrl = Config.apiUrl + '/uploadPhoto';
 @Component({
   selector: 'app-album-edit',
   templateUrl: './album-edit.component.html',
-  styleUrls: ['./album-edit.component.less']
+  styleUrls: ['./album-edit.component.scss']
 })
 export class AlbumEditComponent implements OnInit {
 

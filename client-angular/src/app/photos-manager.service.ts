@@ -13,8 +13,6 @@ export class AlbumInfo {
 })
 export class PhotosManagerService {
 
-  private photosDir: string = "http://localhost/images/";
-
   private photosUri: string = "/photosList";
   private albumsUri: string = "/albumsList";
   
@@ -43,7 +41,7 @@ export class PhotosManagerService {
     return this.http.get(url)
       .toPromise()
       .then((photosUrls: string[]) => {
-        return photosUrls.map(url => this.photosDir + url);
+        return photosUrls.map(url => Config.photosDirUrl + '/' + url);
       })
       .catch(PhotosManagerService.handleError);
   }
@@ -69,7 +67,7 @@ export class PhotosManagerService {
 
   deletePhoto(path: string) {
     // Remove directory path from name for the request (useless)
-    const basename = path.replace(this.photosDir, '');
+    const basename = path.replace(`${Config.photosDirUrl}/`, '');
     const url = `${Config.apiUrl}/deletePhoto`;
 
     return this.http.post(url, JSON.stringify({

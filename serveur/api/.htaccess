@@ -12,6 +12,8 @@ RewriteRule ^ %1 [R,L,NC]
 RewriteCond %{REQUEST_FILENAME}.php -f
 RewriteRule ^ %{REQUEST_URI}.php [L]
 
+## Start session automatically at each script beginning
 php_value session.auto_start 1
-# Header set Access-Control-Allow-Origin *
 
+## Cross-Origin requests allowance (not activated because disables session variables)
+# Header set Access-Control-Allow-Origin *

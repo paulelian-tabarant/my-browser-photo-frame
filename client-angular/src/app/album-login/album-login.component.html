@@ -1,18 +1,30 @@
-<section>
-    <h2>Mon album photo</h2>
-    <p>Charger un album</p>
-    <form name="albumLoginForm" method="post" (submit)="sendLogin()">
-        <label for="albumName">Nom :</label>
-        <input [(ngModel)]="albumName" id=albumName type=text name=albumName size=12 required>
-        <label for=albumPassword>Mot de passe :</label>
-        <input [(ngModel)]="albumPassword" id=albumPassword type="password" name=albumPassword size=12 required>
-        <input type="submit" value="Load album content">
-    </form>
-</section>
-<section>
-    <a [routerLink]="['/userLogin']">
-        Se connecter
-    </a>
-</section>
+<main class="container-fluid full-height">
+    <div class="row justify-content-center h-100">
+        <div class="col-sm-12 col-md-6">
+            <div class="d-flex flex-column align-items-center h-100">
+                <div class="d-flex flex-column justify-content-center flex-grow-1 w-100">
+                    <div>
+                        <h2 class="form-heading">Charger un album</h2>
+                        <form name="albumLoginForm" method="post" (submit)="sendLogin()">
+                            <div class="form-group">
+                                <input class="form-control" [(ngModel)]="albumName" id=albumName type=text name=albumName size=12 required placeholder="Nom de l'album">
+                            </div>
+                            <div class="form-group">
+                                <input class="form-control" [(ngModel)]="albumPassword" id=albumPassword type="password" name=albumPassword size=12 required placeholder="Mot de passe">
+                            </div>
+                            <input type="submit" class="btn" value="Charger l'album">
+                        </form>
+                    </div>
+                </div>
+                <div>
+                    Créer / éditer un album ?
+                </div>
+                <div>
+                    <a [routerLink]="['/userLogin']"> Se connecter </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
 
 

@@ -5,7 +5,7 @@ import { PhotosManagerService } from '../photos-manager.service';
 @Component({
   selector: 'app-slideshow',
   templateUrl: './slideshow.component.html',
-  styleUrls: ['./slideshow.component.less']
+  styleUrls: ['./slideshow.component.scss']
 })
 export class SlideshowComponent implements OnInit {
 

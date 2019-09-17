@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-album-login',
   templateUrl: './album-login.component.html',
-  styleUrls: ['./album-login.component.less']
+  styleUrls: ['./album-login.component.scss']
 })
 export class AlbumLoginComponent implements OnInit {
 

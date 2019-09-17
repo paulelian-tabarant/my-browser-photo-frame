@@ -6,7 +6,7 @@ import { HttpResponse } from '@angular/common/http';
 @Component({
   selector: 'app-user-login',
   templateUrl: './user-login.component.html',
-  styleUrls: ['./user-login.component.less']
+  styleUrls: ['./user-login.component.scss']
 })
 export class UserLoginComponent implements OnInit {
 
