@@ -4,8 +4,8 @@
             <div class="d-flex flex-column align-items-center h-100">
                 <div class="d-flex flex-column justify-content-center flex-grow-1 w-100">
                     <div>
-                        <h2 class="form-heading">Charger un album</h2>
-                        <form name="albumLoginForm" method="post" (submit)="sendLogin()">
+                        <h2>Charger un album</h2>
+                        <form name="albumLoginForm" method="post" (submit)="sendAlbumLogin()">
                             <div class="form-group">
                                 <input class="form-control" [(ngModel)]="albumName" id=albumName type=text name=albumName size=12 required placeholder="Nom de l'album">
                             </div>
@@ -19,9 +19,33 @@
                 <div>
                     Créer / éditer un album ?
                 </div>
-                <div>
-                    <a [routerLink]="['/userLogin']"> Se connecter </a>
+                <a data-toggle="modal" data-target="#userModal"> Se connecter </a>
+
+                <!-- User modal login window -->
+                <div class="modal fade" id="userModal" tabindex="-1" role="dialog">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h2 class="modal-title">Votre compte utilisateur</h2>
+                                <button type="button" class="close" data-dismiss="modal">
+                                    <span>&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form method="post" (submit)="sendUserLogin()">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" [(ngModel)]="userName" name="username" placeholder="Nom d'utilisateur" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="password" class="form-control" [(ngModel)]="userPassword" name="password" placeholder="Mot de passe">
+                                    </div>
+                                    <input type="submit" class="btn" value="Connexion">
+                                </form>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+
             </div>
         </div>
     </div>
