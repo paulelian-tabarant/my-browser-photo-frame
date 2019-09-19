@@ -12,6 +12,7 @@ export class SlideshowComponent implements OnInit {
   @Input() albumName: string;
 
   imageUrlArray: string[] = [];
+  fullScreen: boolean = false;
 
   constructor(
     private photosManagerService: PhotosManagerService,

@@ -5,6 +5,10 @@ $primary-color: Black;
 $secondary-color: FloralWhite;
 $highlight-color: FireBrick;
 
+$enable-responsive-font-sizes: true;
+
+$link-color: $highlight-color;
+
 // Custom globals
 body {
     font-family: 'Red Hat Display', sans-serif;
@@ -13,19 +17,10 @@ body {
     height: 100%;
 }
 
-a {
-    color: $highlight-color;
-    font-weight: bold;
-}
-
 .form-heading {
     text-align: center;
 }
 
 .full-height {
     height: 100vh;
-}
-
-.test {
-    flex-grow: 1;
 }

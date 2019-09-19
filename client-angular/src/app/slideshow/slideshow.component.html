@@ -1,5 +1,16 @@
-<slideshow [imageUrls]="imageUrlArray" 
-           [autoPlay]="true"
-           [autoPlayInterval]="5000"
-           [height]="'500px'">
-</slideshow>
+<div class="slideshow-wrapper">
+    <slideshow 
+        [imageUrls]="imageUrlArray" 
+        [fullscreen]="fullScreen"
+        [autoPlay]="true"
+        [autoPlayInterval]="5000"
+        [height]="'500px'"
+        (onFullscreenExit)="fullScreen = false">
+    </slideshow>
+    <a *ngIf="!fullScreen" class="fs" (click)="fullScreen = true">
+        <div class="py-1">
+            <span class="oi oi-fullscreen-enter"></span>
+            <span class="ml-2">Plein écran</span>
+        </div>
+    </a>
+</div>
