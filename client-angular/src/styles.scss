@@ -22,10 +22,10 @@ body {
 a {
     color: $highlight-color;
     cursor: pointer;
+    font-weight: bold;
 
     &:hover {
         color: $highlight-color;
-        font-weight: bold;
         text-decoration: none;
     }
 }
