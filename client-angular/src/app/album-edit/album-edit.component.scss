@@ -1,12 +1,21 @@
-.modal-dialog {
+.modal-large {
     max-width: 100%;
 
     @media (min-width: 768px) {
-        width: 75vw;
+        padding-left: 1em;
+        padding-right: 1em;
+    }
+
+    @media (min-width: 1024px) {
+        max-width: 75vw;
     }
 }
 
-.filename {
+.edit-album-header {
+    display: inline-block;
+}
+
+.text-ellipsed {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -20,4 +29,14 @@
 
 .flex-grow-1 {
     flex-grow: 1;
+}
+
+.card-img-top {
+    object-fit: cover;
+}
+
+.progress {
+    @media (min-width: 576px) {
+        height: 100%;
+    }
 }
