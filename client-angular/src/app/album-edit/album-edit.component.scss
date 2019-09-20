@@ -1,0 +1,23 @@
+.modal-dialog {
+    max-width: 100%;
+
+    @media (min-width: 768px) {
+        width: 75vw;
+    }
+}
+
+.filename {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.head-row {
+    font-weight: bold;
+    padding-top: 1px;
+    padding-bottom: 1px;
+}
+
+.flex-grow-1 {
+    flex-grow: 1;
+}

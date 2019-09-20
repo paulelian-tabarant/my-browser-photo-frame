@@ -46,8 +46,23 @@
         $deletePhoto_SQL = "DELETE FROM tPhotos ";
         $deletePhoto_SQL .= " WHERE fileName = '" . $photoName . "'";
 
-        $deletePhoto_SQL = mysqli_query($dbConn, $deletePhoto_SQL);
+        $deletePhoto_res = mysqli_query($dbConn, $deletePhoto_SQL);
 
-        mysqli_free_result($deletePhoto_SQL);
+        mysqli_free_result($deletePhoto_res);
+    }
+
+    function getPhotoNameByID($dbConn, $photoID) {
+        $getPhoto_SQL = "SELECT fileName FROM tPhotos ";
+        $getPhoto_SQL .= "WHERE ID = " . $photoID;
+
+        $getPhoto_res = mysqli_query($dbConn, $getPhoto_SQL);
+
+        while ($row = mysqli_fetch_array($getPhoto_res, MYSQLI_ASSOC)) {
+            $photoName = $row["fileName"];
+        }
+
+        mysqli_free_result($getPhoto_res);
+
+        return $photoName;
     }
 ?>

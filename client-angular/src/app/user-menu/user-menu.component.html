@@ -1,17 +1,26 @@
-<section *ngIf="loggedIn">
-    <div>
-        <p>Bonjour, {{ username }}</p>
+<main class="container-fluid mt-3">
+    <div *ngIf="loggedIn">
+        <h1 class="mb-5 text-center">Bonjour, <strong>{{ username }}</strong> !</h1>
+        <div>
+            <h2 class="text-center"><span class="oi oi-image"></span> Vos albums</h2>
+            <div class="container pt-sm-1 pt-md-2 pt-lg-3">
+                <div class="row justify-content-between">
+                    <section class="col-sm-12 col-md-6 col-lg-4" *ngFor="let album of albumsList">
+                        <div class="d-flex justify-content-center">
+                            <a routerLink="/albumEdit/{{album.name}}">
+                                <figure class="figure">
+                                    <img [src]=album.cover class="figure-image rounded" alt="{{album.name}} cover">
+                                    <figcaption class="figure-caption text-center">{{ album.name }}</figcaption>
+                                </figure>
+                            </a>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
     </div>
-    <div>
-        <h1>Vos albums</h1>
-        <ul>
-            <li *ngFor="let album of albumsList">
-                <a routerLink="/albumEdit/{{album}}">{{ album }}</a>
-            </li>
-        </ul>
+    <div *ngIf="!loggedIn">
+        <h1>Accès refusé</h1>
+        <p>Authentifiez-vous pour pouvoir consulter vos albums.</p>
     </div>
-</section>
-<section *ngIf="!loggedIn">
-    <h1>Accès refusé</h1>
-    <p>Authentifiez-vous pour pouvoir consulter vos albums.</p>
-</section>
+</main>

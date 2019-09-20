@@ -5,3 +5,4 @@
 - Réduire la taille des images envoyées depuis le serveur (compression)
 - Restrictions d'accès au dossier `/images`
 - Pouvoir supprimer une photo présente dans plusieurs albums d'un album spécifique (et pas de tous les albums comme ça le fait pour le moment) 
+- Ajouter des aides à la navigation entre les pages (album edit --> album view par exemple)

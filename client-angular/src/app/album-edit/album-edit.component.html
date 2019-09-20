@@ -1,79 +1,86 @@
 
-<h1>Éditer l'album {{albumName}}</h1>
-<p>{{albumDescription}}</p>
-<section>
-    <h2>Ajouter une photo</h2>
-    <input type="hidden" name="albumName" value="albumName">
-    <input type="file" ng2FileSelect [uploader]="uploader" multiple>
+<main class="container-fluid mt-sm-1 mt-md-3">
+    <h1>Éditer l'album <strong>{{albumName}}</strong></h1>
+    <p>{{albumDescription}}</p>
 
-    <div *ngIf="uploader.queue.length > 0">
-        <h2>File d'ajout</h2>
-        <p>Nombre de photos : {{ uploader?.queue?.length }}</p>
+    <section>
+        <input type="hidden" name="albumName" value="albumName">
 
-        <table>
-            <thead>
-                <tr>
-                    <th width="50%">Nom</th>
-                    <th>Taille</th>
-                    <th>Progression</th>
-                    <th>Statut</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let item of uploader.queue">
-                    <td><strong>{{ item?.file?.name }}</strong></td>
-                    <td *ngIf="uploader.options.isHTML5" nowrap>{{ item?.file?.size/1024/1024 | number:'.2' }} MB</td>
-                    <td *ngIf="uploader.options.isHTML5">
-                        <div style="margin-bottom: 0;">
-                            <div role="progressbar" [ngStyle]="{ 'width': item.progress + '%' }"></div>
+        <button type="button" class="btn" data-toggle="modal" data-target="#uploadModal">
+            Ajouter des photos
+        </button>
+
+        <div class="modal fade" id="uploadModal" tabindex="-1" role="dialog" aria-labelledby="uploadModalLabel">
+            <div class="modal-dialog" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="uploadModalLabel">Sélectionner des fichiers</h2>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span class="oi oi-x"></span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <input type="file" ng2FileSelect [uploader]="uploader" aria-describedby="numberHint" multiple>
+                        <small id="numberHint" class="form-text text-muted">Nombre de photos : {{ uploader.queue.length }}</small>
+                    </div>
+                </form>
+                <div class="container">
+                    <div class="row head-row">
+                        <div class="col-6">Nom</div>
+                        <div class="col-2">Taille</div>
+                        <div class="col-2">Progression</div>
+                        <div class="col-1">Statut</div>
+                        <div class="col-1"></div>
+                    </div>
+                    
+                    <div class="row align-items-center" *ngFor="let item of uploader.queue">
+                        <div class="col-6 filename">{{ item?.file?.name }}</div>
+                        <div class="col-2" *ngIf="uploader.options.isHTML5" nowrap>{{ item?.file?.size/1024/1024 | number:'.2' }} MB</div>
+                        <div class="col-2" *ngIf="uploader.options.isHTML5">
+                            <div class="progress" style="margin-bottom: 0;">
+                                <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': item.progress + '%' }"></div>
+                            </div>
                         </div>
-                    </td>
-                    <td>
-                        <span *ngIf="item.isSuccess">Success</span>
-                        <span *ngIf="item.isCancel">Cancelled</span>
-                        <span *ngIf="item.isError">Error</span>
-                    </td>
-                    <td nowrap>
-                        <button type="button" (click)="item.upload()" [disabled]="item.isReady || item.isUploading || item.isSuccess">
-                            <span>Ajouter</span>
-                        </button>
-                        <button type="button" (click)="item.cancel()" [disabled]="item.isReady || item.isUploading || item.isSuccess">
-                            <span>Annuler</span>
-                        </button>
-                        <button type="button" (click)="item.remove()" [disabled]="item.isReady || item.isUploading || item.isSuccess">
-                            <span>Supprimer</span>
-                        </button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-
-        <div>
-            <div>
-                Progression totale:
-                <div>
-                    <div role="progressbar" [ngStyle]="{'width': uploader.progress + '%'}"></div>
+                        <div class="col-1 text-center">
+                            <span class="oi oi-circle-check" *ngIf="item.isSuccess"></span>
+                            <span class="oi oi-warning" *ngIf="item.isCancel">Cancelled</span>
+                            <span class="oi oi-circle-x" *ngIf="item.isError">Error</span>
+                        </div>
+                        <div class="col-1 text-center">
+                            <a (click)="item.remove()">
+                                <span class="oi oi-circle-x"></span>
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <button type="button" (click)="uploader.uploadAll()" [disabled]="!uploader.getNotUploadedItems().length">
-                Tout ajouter
-            </button>
-            <button type="button" (click)="uploader.cancelAll()" [disabled]="!uploader.isUploading">
-                Tout annuler
-            </button>
-            <button type="button" (click)="uploader.clearQueue()" [disabled]="!uploader.queue.length">
-                Tout supprimer 
-            </button>
+
+            <div class="modal-footer">
+                <div class="flex-grow-1 mx-2">
+                    <div class="progress">
+                        <div class="progress-bar" role="progressbar" [ngStyle]="{'width': uploader.progress + '%'}"></div>
+                    </div>
+                </div>
+                <button type="button" class="btn btn-success btn-s" (click)="uploader.uploadAll()" [disabled]="!uploader.getNotUploadedItems().length">
+                    Ajouter tout
+                </button>
+                <button type="button" class="btn btn-danger btn-s" (click)="uploader.clearQueue()" [disabled]="!uploader.queue.length">
+                    Supprimer tout 
+                </button>
+            </div>
+            </div>
+            </div>
         </div>
-    </div>
+    </section>
 
-
-</section>
-<section>
-    <h2>Photos actuelles</h2>
-    <div *ngFor="let photo of photosList">
-        <img [src]=photo width="500px">
-        <button (click)="deletePhoto(photo)">Supprimer</button>
-    </div>
-</section>
+    <section>
+        <h2>Photos actuelles</h2>
+        <div *ngFor="let photo of photosList">
+            <img [src]=photo width="500px">
+            <button (click)="deletePhoto(photo)">Supprimer</button>
+        </div>
+    </section>
+</main>

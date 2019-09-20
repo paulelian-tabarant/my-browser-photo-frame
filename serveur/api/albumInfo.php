@@ -16,6 +16,7 @@
     if ($dbSuccess) {
         include_once('../../htconfig/varConfig.php');
         include_once('../phpFunctions/dbAlbums.php');
+        include_once('../phpFunctions/dbPhotos.php');
 
         $albumName = $_GET["name"];
         $albumID = $_SESSION["albumLoaded"];
@@ -30,7 +31,7 @@
             echo 'Access to this album was not granted.';
         }
         else {
-            $selectAlbum_SQL = "SELECT name, description FROM tAlbums ";
+            $selectAlbum_SQL = "SELECT name, description, coverID FROM tAlbums ";
             $selectAlbum_SQL .= "WHERE ID = ".$reqAlbumID;
 
             $albumInfo = [];
@@ -38,6 +39,7 @@
             while ($row = mysqli_fetch_array($selectAlbum_res, MYSQLI_ASSOC)) {
                 $albumInfo["name"] = $row["name"];
                 $albumInfo["description"] = $row["description"];
+                $albumInfo["cover"] = getPhotoNameByID($dbConn, $row["coverID"]);
             }
 
             echo json_encode($albumInfo);

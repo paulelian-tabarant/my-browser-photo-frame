@@ -44,4 +44,19 @@
         return $albumsList;
     }
 
+    function getCoverPhotoID($dbConn, $albumID) {
+        $getCover_SQL = "SELECT coverID from tAlbums ";
+        $getCover_SQL .= "WHERE ID = " . $albumID;
+
+        $getCover_res = mysqli_query($dbConn, $getCover_SQL);
+
+        while ($row = mysqli_fetch_array($getCover_res, MYSQLI_ASSOC)) {
+            $coverID = $row["coverID"];
+        }
+
+        mysqli_free_result($getCover_res);
+
+        return $coverID;
+    }
+
 ?>

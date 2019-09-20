@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { PhotosManagerService } from '../photos-manager.service';
+import { PhotosManagerService, AlbumInfo } from '../photos-manager.service';
 import { AuthenticationService } from '../authentication.service';
 import { Router } from '@angular/router';
 
@@ -11,11 +11,7 @@ import { Router } from '@angular/router';
 export class UserMenuComponent implements OnInit {
 
   username: string;
-  albumsList: string[];
-
-  file: any;
-  errFile: any;
-  errorMsg: any;
+  albumsList: AlbumInfo[];
 
   loggedIn: boolean = false;
 
@@ -26,15 +22,21 @@ export class UserMenuComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.authService.lastLoggedUser.subscribe((username: string) => {
-      this.username = username;
-    });
+    // TODO: make a request directly to the server
+    this.username = this.authService.getLastLoggedUser();
+
+    this.albumsList = new Array<AlbumInfo>();
 
     this.photosManagerService.getAlbumsList()
       .then((albumsList: string[]) => {
-        this.albumsList = albumsList;
-        this.loggedIn = true;
-      });
+        albumsList.forEach(album => {
+          this.photosManagerService.getAlbumInfo(album)
+            .then((albumInfo: AlbumInfo) => {
+              this.albumsList.push(albumInfo);
+            });
+        });
+      })
+      .then(() => this.loggedIn = true);
   }
 
   onAlbumClick(name: string) {

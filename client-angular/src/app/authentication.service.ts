@@ -8,8 +8,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 })
 export class AuthenticationService {
 
-  private lastLoggedUserSrc = new BehaviorSubject("");
-  lastLoggedUser = this.lastLoggedUserSrc.asObservable();
+  private lastLoggedUser: string;
 
   constructor(private http: HttpClient) { }
 
@@ -26,7 +25,10 @@ export class AuthenticationService {
         'albumPassword': albumPassword, 
       }))
       .toPromise()
-      .catch(AuthenticationService.handleError);
+      .catch((error) => {
+        AuthenticationService.handleError(error);
+        return Observable.throw(new Error());
+      });
   }
 
   userLogin(username: string, password:string) : Promise<any> {
@@ -37,11 +39,15 @@ export class AuthenticationService {
       'password': password,
     }), { observe: 'response' })
     .toPromise()
-    .then(() => { this.lastLoggedUserSrc.next(username); })
+    .then(() => { this.lastLoggedUser = username })
     .catch((error) => {
-      AuthenticationService.handleError;
+      AuthenticationService.handleError(error);
       return Observable.throw(new Error());
     });
+  }
+
+  getLastLoggedUser() {
+    return this.lastLoggedUser;
   }
 
 }

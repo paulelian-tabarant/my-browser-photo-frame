@@ -6,6 +6,7 @@ import { Config } from './config';
 export class AlbumInfo {
   name: string;
   description: string;
+  cover: string;
 }
 
 @Injectable({
@@ -59,8 +60,10 @@ export class PhotosManagerService {
 
     return this.http.get(url)
       .toPromise()
-      .then((albumInfo) => {
-        return albumInfo as AlbumInfo;
+      .then((albumInfo: AlbumInfo) => {
+        // Convert relative to absolute path
+        albumInfo.cover = `${Config.photosDirUrl}/${albumInfo.cover}`;
+        return albumInfo;
       })
       .catch(PhotosManagerService.handleError);
   }
