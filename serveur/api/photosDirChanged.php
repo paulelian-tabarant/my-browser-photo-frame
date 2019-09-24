@@ -30,14 +30,18 @@
 		if (!isset($albumID)) {
 			exit();
 		}
-		$lastContentArray = listPhotosInAlbum($dbConn, $albumID);
 
+		$lastContentArray = listPhotosInAlbum($dbConn, $albumID);
 		// Condition for sending the event to the client
 		if (sizeof($lastContentArray) != sizeof($_SESSION["photosDirContent"])) {
 			echo 'data: ' . PHP_EOL;
 			echo PHP_EOL;
 		}
 
+	}
+
+	else {
+		http_response_code(500);
 	}
 
 ?>

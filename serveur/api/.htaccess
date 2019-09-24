@@ -17,3 +17,7 @@ php_value session.auto_start 1
 
 ## Cross-Origin requests allowance (not activated because disables session variables)
 # Header set Access-Control-Allow-Origin *
+
+# Set max upload size
+php_value upload_max_filesize 10M
+php_value post_max_size 10M

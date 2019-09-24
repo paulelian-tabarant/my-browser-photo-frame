@@ -1,14 +1,12 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Config } from './config';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthenticationService {
-
-  private lastLoggedUser: string;
 
   constructor(private http: HttpClient) { }
 
@@ -39,15 +37,21 @@ export class AuthenticationService {
       'password': password,
     }), { observe: 'response' })
     .toPromise()
-    .then(() => { this.lastLoggedUser = username })
     .catch((error) => {
       AuthenticationService.handleError(error);
       return Observable.throw(new Error());
     });
   }
 
-  getLastLoggedUser() {
-    return this.lastLoggedUser;
+  getLoggedUser() : Promise<any> {
+    const url = `${Config.apiUrl}/getLoggedUser`
+
+    return this.http.get(url)
+      .toPromise()
+      .catch((error) => {
+        AuthenticationService.handleError(error);
+        return Observable.throw(new Error());
+      });
   }
 
 }

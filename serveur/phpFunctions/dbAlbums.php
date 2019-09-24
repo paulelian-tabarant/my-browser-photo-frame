@@ -59,4 +59,25 @@
         return $coverID;
     }
 
+    function createNewAlbum($dbConn, $name, $description, $password, $ownerID) {
+        $passwordSHA512 = hash("sha512", $password);
+
+        $newAlbum_SQL = "INSERT INTO tAlbums (name, description, password, ownerID) ";
+        $newAlbum_SQL .= "VALUES ('" . $name . "', '" . $description . "', '" . $passwordSHA512 . "', " . $ownerID . ")";
+
+        $newAlbum_res = mysqli_query($dbConn, $newAlbum_SQL);
+
+        mysqli_free_result($newAlbum_res);
+    }
+
+    function setAlbumCoverID($dbConn, $albumID, $coverID) {
+        $setCover_SQL = "UPDATE tAlbums SET ";
+        $setCover_SQL .= "coverID = " . $coverID . " ";
+        $setCover_SQL .= "WHERE ID = " . $albumID;
+        
+        $setCover_res = mysqli_query($dbConn, $setCover_SQL);
+
+        mysqli_free_result($setCover_res);
+    }
+
 ?>

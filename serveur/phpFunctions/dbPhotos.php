@@ -65,4 +65,19 @@
 
         return $photoName;
     }
+    
+    function getPhotoIDByName($dbConn, $photoName) {
+        $getPhoto_SQL = "SELECT ID FROM tPhotos ";
+        $getPhoto_SQL .= "WHERE fileName = '" . $photoName . "'";
+
+        $getPhoto_res = mysqli_query($dbConn, $getPhoto_SQL);
+
+        while ($row = mysqli_fetch_array($getPhoto_res, MYSQLI_ASSOC)) {
+            $photoID = $row["ID"];
+        }
+
+        mysqli_free_result($getPhoto_res);
+
+        return $photoID;
+    }
 ?>

@@ -62,4 +62,17 @@
         return $authSuccess;
     }
 
+    function getUserNameByID($dbConn, $userID) {
+        $getUserName_SQL = "SELECT name FROM tUsers ";
+        $getUserName_SQL .= "WHERE ID = " . $userID;
+
+        $getUserName_res = mysqli_query($dbConn, $getUserName_SQL);
+
+        while ($row = mysqli_fetch_array($getUserName_res, MYSQLI_ASSOC)) {
+            $userName = $row["name"];
+        }
+
+        return $userName;
+    }
+
 ?>

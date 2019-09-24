@@ -15,6 +15,10 @@ export class UserMenuComponent implements OnInit {
 
   loggedIn: boolean = false;
 
+  newAlbumTitle: string;
+  newAlbumDescription: string;
+  newAlbumPassword: string;
+
   constructor(
     private photosManagerService: PhotosManagerService,
     private authService: AuthenticationService,
@@ -22,8 +26,11 @@ export class UserMenuComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    // TODO: make a request directly to the server
-    this.username = this.authService.getLastLoggedUser();
+    this.authService.getLoggedUser()
+      .then((username: string) => this.username = username)
+      .catch(() => {
+        this.loggedIn = false;
+      });
 
     this.albumsList = new Array<AlbumInfo>();
 
@@ -39,8 +46,18 @@ export class UserMenuComponent implements OnInit {
       .then(() => this.loggedIn = true);
   }
 
-  onAlbumClick(name: string) {
-    // TODO
-  }
+  createNewAlbum() {
+    // TODO: form validation
+    let valid = true;
 
+    if (!valid) return;
+
+    this.photosManagerService.createAlbum(
+      this.newAlbumTitle,
+      this.newAlbumDescription,
+      this.newAlbumPassword)
+      .then(() => 
+        this.router.navigate([encodeURI("/albumEdit/" + this.newAlbumTitle)])
+      );
+  }
 }

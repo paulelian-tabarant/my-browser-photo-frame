@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, VirtualTimeScheduler } from 'rxjs';
 import { Config } from './config';
 
 export class AlbumInfo {
@@ -37,7 +37,7 @@ export class PhotosManagerService {
   // If previously logged into an album, should return all the names
   // of containing photos.
   getPhotosList(albumName: string) {
-    const url = encodeURI(`${Config.apiUrl}/${this.photosUri}?album=${albumName}`);
+    const url = encodeURI(`${Config.apiUrl}${this.photosUri}?album=${albumName}`);
 
     return this.http.get(url)
       .toPromise()
@@ -70,11 +70,35 @@ export class PhotosManagerService {
 
   deletePhoto(path: string) {
     // Remove directory path from name for the request (useless)
-    const basename = path.replace(`${Config.photosDirUrl}/`, '');
+    const basename = decodeURI(path.replace(`${Config.photosDirUrl}/`, ''));
     const url = `${Config.apiUrl}/deletePhoto`;
 
     return this.http.post(url, JSON.stringify({
         name: basename
+      }))
+      .toPromise()
+      .catch(PhotosManagerService.handleError);
+  }
+
+  createAlbum(name: string, description: string, password: string) {
+    const url = `${Config.apiUrl}/newAlbum`;
+
+    return this.http.post(url, JSON.stringify({
+        name: name,
+        description: description,
+        password: password,
+      }))
+      .toPromise()
+      .catch(PhotosManagerService.handleError);
+  }
+
+  setAlbumCover(albumName: string, photoName: string) {
+    const url = `${Config.apiUrl}/setAlbumCover`;
+
+    const photoBaseName = decodeURI(photoName.replace(`${Config.photosDirUrl}/`, ''));
+    return this.http.post(url, JSON.stringify({
+        album: albumName,
+        photo: photoBaseName,
       }))
       .toPromise()
       .catch(PhotosManagerService.handleError);

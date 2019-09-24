@@ -33,7 +33,7 @@
 
             $photosArray = listPhotosInAlbum($dbConn, $reqAlbumID);
 
-            if (empty($photosArray)) {
+            if (!isset($photosArray)) {
                 http_response_code(404);
                 echo 'Album not found.';
             }

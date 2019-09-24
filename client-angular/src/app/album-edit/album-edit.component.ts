@@ -22,7 +22,7 @@ export class AlbumEditComponent implements OnInit {
   
   uploader: FileUploader;
   response: string;
-  photoToBeDeleted: string;
+  photoSelected: string;
 
   constructor(private route: ActivatedRoute,
               private photosManagerService: PhotosManagerService) { }
@@ -57,20 +57,29 @@ export class AlbumEditComponent implements OnInit {
     });
   }
 
-  onDeletePhotoClick(srcPath: string) {
+  onSelectPhoto(srcPath: string) {
     // Store photo name in a local attribute
-    this.photoToBeDeleted = srcPath;
-    $('#confirmDeleteModal').modal('show');
+    this.photoSelected = srcPath;
+
+    $('#photoModal').modal('show');
   }
 
-  onDeletePhotoConfirm() {
-    if (!this.photoToBeDeleted) return;
+  onDeletePhotoClick() {
+    if (!this.photoSelected) return;
 
-    this.photosManagerService.deletePhoto(this.photoToBeDeleted)
+    this.photosManagerService.deletePhoto(this.photoSelected)
       .then(() => {
         this.loadAlbumContent(this.albumName)
-        $('#confirmDeleteModal').modal('hide');
+        $('#photoModal').modal('hide');
       })
-      .catch(() => alert);
+  }
+
+  onCoverPhotoClick() {
+    if (!this.photoSelected) return;
+
+    this.photosManagerService.setAlbumCover(this.albumName, this.photoSelected)
+      .then(() => {
+        $('#photoModal').modal('hide');
+      })
   }
 }
