@@ -17,6 +17,10 @@ export class AlbumLoginComponent implements OnInit {
   userName: string;
   userPassword: string;
 
+  loginError: string = "Connexion impossible. Vérifiez vos identifiants.";
+  badAlbumLogin: boolean = false;
+  badUserLogin: boolean = false;
+
   constructor(
     private authService: AuthenticationService,
     private router: Router) { }
@@ -31,8 +35,8 @@ export class AlbumLoginComponent implements OnInit {
     if (formValid) {
 
       this.authService.albumLogin(this.albumName, this.albumPassword)
-        .then(() => { this.router.navigate([`/albumView/${this.albumName}`]); })
-        .catch(() => { /* TODO: do something about bad album login */ });
+        .then(() => this.router.navigate([`/albumView/${this.albumName}`]))
+        .catch(() => this.badAlbumLogin = true);
     }
   }
 
@@ -48,7 +52,7 @@ export class AlbumLoginComponent implements OnInit {
 
           this.router.navigate(['/userMenu']); 
         })
-        .catch(() => {/* TODO: do something about bad user login */});
+        .catch(() => this.badUserLogin = true);
     }
   }
 

@@ -12,7 +12,12 @@
                             <div class="form-group">
                                 <input class="form-control" [(ngModel)]="albumPassword" id=albumPassword type="password" name=albumPassword size=12 required placeholder="Mot de passe">
                             </div>
-                            <input type="submit" class="btn" value="Charger l'album">
+                            <div class="input-group">
+                                <input type="submit" [ngClass]="{'form-control': true, 'btn': true, 'is-invalid': badAlbumLogin}" value="Charger l'album">
+                                <div class="invalid-feedback">
+                                    {{ loginError }}
+                                </div>
+                            </div>
                         </form>
                     </div>
                 </div>
@@ -39,7 +44,12 @@
                                     <div class="form-group">
                                         <input type="password" class="form-control" [(ngModel)]="userPassword" name="password" placeholder="Mot de passe">
                                     </div>
-                                    <input type="submit" class="btn" value="Connexion">
+                                    <div class="input-group">
+                                        <input type="submit" [ngClass]="{'form-control': true, 'btn': true, 'is-invalid': badUserLogin}" value="Connexion">
+                                        <div class="invalid-feedback">
+                                            {{ loginError }}
+                                        </div>
+                                    </div>
                                 </form>
                             </div>
                         </div>

@@ -42,7 +42,7 @@ export class PhotosManagerService {
     return this.http.get(url)
       .toPromise()
       .then((photosUrls: string[]) => {
-        return photosUrls.map(url => Config.photosDirUrl + '/' + url);
+        return photosUrls.map(url => encodeURI(Config.photosDirUrl + '/' + url));
       })
       .catch(PhotosManagerService.handleError);
   }
