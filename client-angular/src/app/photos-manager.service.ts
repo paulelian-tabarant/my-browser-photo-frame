@@ -36,13 +36,14 @@ export class PhotosManagerService {
 
   // If previously logged into an album, should return all the names
   // of containing photos.
-  getPhotosList(albumName: string) {
+  getPhotosList(albumName: string, quality: number) {
     const url = encodeURI(`${Config.apiUrl}${this.photosUri}?album=${albumName}`);
 
     return this.http.get(url)
       .toPromise()
       .then((photosUrls: string[]) => {
-        return photosUrls.map(url => encodeURI(Config.photosDirUrl + '/' + url));
+        return photosUrls.map(url => 
+          encodeURI(`${Config.apiUrl}/getPhoto?name=${url}&quality=${quality}`));
       })
       .catch(PhotosManagerService.handleError);
   }
@@ -62,7 +63,7 @@ export class PhotosManagerService {
       .toPromise()
       .then((albumInfo: AlbumInfo) => {
         // Convert relative to absolute path
-        albumInfo.cover = `${Config.photosDirUrl}/${albumInfo.cover}`;
+        albumInfo.cover = `${Config.apiUrl}/getPhoto?name=${albumInfo.cover}&quality=25`;
         return albumInfo;
       })
       .catch(PhotosManagerService.handleError);

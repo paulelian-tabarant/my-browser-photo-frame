@@ -14,6 +14,9 @@ const uploadUrl = Config.apiUrl + '/uploadPhoto';
 })
 export class AlbumEditComponent implements OnInit {
 
+  static coverQuality: number = 10;
+  static zoomQuality: number = 100;
+
   private imageFieldName: string = "photo";
 
   albumName: string;
@@ -29,7 +32,7 @@ export class AlbumEditComponent implements OnInit {
 
 
   private loadAlbumContent(name: string) {
-    this.photosManagerService.getPhotosList(this.albumName)
+    this.photosManagerService.getPhotosList(name, 10)
       .then((photosList: string[]) => { this.photosList = photosList; })
       .catch( /* do things here if necessary */);
   }
@@ -58,8 +61,11 @@ export class AlbumEditComponent implements OnInit {
   }
 
   onSelectPhoto(srcPath: string) {
-    // Store photo name in a local attribute
-    this.photoSelected = srcPath;
+    let coverQ = AlbumEditComponent.coverQuality;
+    let zoomQ = AlbumEditComponent.zoomQuality;
+
+    // Store photo name in a local attribute, requesting zoom quality instead of cover
+    this.photoSelected = srcPath.replace(`quality=${coverQ}`, `quality=${zoomQ}`);
 
     $('#photoModal').modal('show');
   }

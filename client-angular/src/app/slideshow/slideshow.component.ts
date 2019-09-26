@@ -29,7 +29,7 @@ export class SlideshowComponent implements OnInit {
   }
 
   updateContent() {
-    this.photosManagerService.getPhotosList(this.albumName)
+    this.photosManagerService.getPhotosList(this.albumName, 100)
       .then((photosUrls: string[]) => {
         // Add the host prefix to each server image url
         this.imageUrlArray = photosUrls;

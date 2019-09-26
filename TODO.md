@@ -2,7 +2,5 @@
 
 - Contrôle de saisie sur les formulaires
 - Essayer de faire en sorte que le script de connexion à la BDD ne soit appelé qu'une seule fois
-- Réduire la taille des images envoyées depuis le serveur (compression)
-- Restrictions d'accès au dossier `/images`
-- Pouvoir supprimer une photo présente dans plusieurs albums d'un album spécifique (et pas de tous les albums comme ça le fait pour le moment) 
 - Ajouter des aides à la navigation entre les pages (album edit --> album view par exemple)
+- Animation de chargement sur le slideshow en attendant que toutes les photos soient chargés
