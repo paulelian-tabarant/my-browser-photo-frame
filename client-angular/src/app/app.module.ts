@@ -13,6 +13,13 @@ import { AlbumComponent } from './album/album.component';
 import { AlbumEditComponent } from './album-edit/album-edit.component';
 import { UserMenuComponent } from './user-menu/user-menu.component';
 
+import { APP_INITIALIZER } from '@angular/core';
+import { Config } from './config';
+
+export function initializeApp(config: Config) {
+  return  () => config.load();
+}
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -35,7 +42,14 @@ import { UserMenuComponent } from './user-menu/user-menu.component';
     FormsModule,
     FileUploadModule,
   ],
-  providers: [],
+  providers: [
+    Config,
+    {
+      provide: APP_INITIALIZER,
+      useFactory: initializeApp,
+      deps: [Config], multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

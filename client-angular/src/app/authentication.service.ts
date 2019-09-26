@@ -53,5 +53,4 @@ export class AuthenticationService {
         return Observable.throw(new Error());
       });
   }
-
 }
