@@ -107,15 +107,18 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
+                    <h2>{{selPhotoName}}</h2>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span class="oi oi-x"></span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <img [src]=photoSelected width="100%">
+                    <img [src]=selPhotoUrl width="100%">
                 </div>
                 <div class="modal-footer justify-content-between">
-                    <button type="button" class="btn" (click)="onCoverPhotoClick()"><span class="oi oi-image"></span> Couverture de l'album</button>
+                    <button type="button" class="btn" (click)="onCoverPhotoClick()">
+                        <span class="oi oi-image"></span> Couverture de l'album
+                    </button>
                     <button type="button" class="btn" (click)="onDeletePhotoClick()"><span class="oi oi-x"></span> Supprimer</button>
                 </div>
             </div>

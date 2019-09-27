@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, VirtualTimeScheduler } from 'rxjs';
 import { Config } from './config';
+import { decode } from 'punycode';
 
 export class AlbumInfo {
   name: string;
@@ -36,14 +37,14 @@ export class PhotosManagerService {
 
   // If previously logged into an album, should return all the names
   // of containing photos.
-  getPhotosList(albumName: string, quality: number) {
+  getPhotosList(albumName: string) {
     const url = encodeURI(`${Config.apiUrl}${this.photosUri}?album=${albumName}`);
 
     return this.http.get(url)
       .toPromise()
       .then((photosUrls: string[]) => {
         return photosUrls.map(url => 
-          encodeURI(`${Config.apiUrl}/getPhoto?name=${url}&quality=${quality}`));
+          encodeURI(`${Config.apiUrl}/getPhoto?name=${url}`));
       })
       .catch(PhotosManagerService.handleError);
   }
@@ -63,19 +64,29 @@ export class PhotosManagerService {
       .toPromise()
       .then((albumInfo: AlbumInfo) => {
         // Convert relative to absolute path
-        albumInfo.cover = `${Config.apiUrl}/getPhoto?name=${albumInfo.cover}&quality=25`;
+        albumInfo.cover = `${Config.apiUrl}/getPhoto?name=${albumInfo.cover}`;
         return albumInfo;
       })
       .catch(PhotosManagerService.handleError);
   }
 
-  deletePhoto(path: string) {
+  getPhotoNameFromUrl(url: string) {
+    let filePattern = /name=.+\.jpg/;
+    let photoPath = decodeURI(url);
+    let fileName = filePattern.exec(photoPath)[0];
+    // Suppress parameter part from the string
+    fileName = fileName.replace("name=", "");
+    return fileName;
+  }
+
+  deletePhoto(photoUrl: string) {
     // Remove directory path from name for the request (useless)
-    const basename = decodeURI(path.replace(`${Config.photosDirUrl}/`, ''));
+    let fileName = this.getPhotoNameFromUrl(photoUrl);
+
     const url = `${Config.apiUrl}/deletePhoto`;
 
     return this.http.post(url, JSON.stringify({
-        name: basename
+        name: fileName
       }))
       .toPromise()
       .catch(PhotosManagerService.handleError);
@@ -93,13 +104,13 @@ export class PhotosManagerService {
       .catch(PhotosManagerService.handleError);
   }
 
-  setAlbumCover(albumName: string, photoName: string) {
+  setAlbumCover(albumName: string, photoUrl: string) {
     const url = `${Config.apiUrl}/setAlbumCover`;
+    let photoName = this.getPhotoNameFromUrl(photoUrl);
 
-    const photoBaseName = decodeURI(photoName.replace(`${Config.photosDirUrl}/`, ''));
     return this.http.post(url, JSON.stringify({
         album: albumName,
-        photo: photoBaseName,
+        photo: photoName,
       }))
       .toPromise()
       .catch(PhotosManagerService.handleError);

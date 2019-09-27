@@ -5,7 +5,6 @@ import { FileUploader } from 'ng2-file-upload';
 
 import { Config } from '../config';
 
-const uploadUrl = Config.apiUrl + '/uploadPhoto';
 
 @Component({
   selector: 'app-album-edit',
@@ -14,9 +13,6 @@ const uploadUrl = Config.apiUrl + '/uploadPhoto';
 })
 export class AlbumEditComponent implements OnInit {
 
-  static coverQuality: number = 10;
-  static zoomQuality: number = 100;
-
   private imageFieldName: string = "photo";
 
   albumName: string;
@@ -24,15 +20,20 @@ export class AlbumEditComponent implements OnInit {
   photosList: string[];
   
   uploader: FileUploader;
+  uploadUrl = Config.apiUrl + '/uploadPhoto';
   response: string;
-  photoSelected: string;
+  selPhotoUrl: string;
+  selPhotoName: string;
+
+  deleting: boolean = false;
+  settingCover: boolean = false;
 
   constructor(private route: ActivatedRoute,
               private photosManagerService: PhotosManagerService) { }
 
 
   private loadAlbumContent(name: string) {
-    this.photosManagerService.getPhotosList(name, 10)
+    this.photosManagerService.getPhotosList(name)
       .then((photosList: string[]) => { this.photosList = photosList; })
       .catch( /* do things here if necessary */);
   }
@@ -47,7 +48,7 @@ export class AlbumEditComponent implements OnInit {
     this.loadAlbumContent(this.albumName);
 
     this.uploader = new FileUploader({
-      url: uploadUrl,
+      url: this.uploadUrl,
       method: "POST",
       itemAlias: this.imageFieldName,
       additionalParameter: {
@@ -60,31 +61,35 @@ export class AlbumEditComponent implements OnInit {
     });
   }
 
-  onSelectPhoto(srcPath: string) {
-    let coverQ = AlbumEditComponent.coverQuality;
-    let zoomQ = AlbumEditComponent.zoomQuality;
-
+  onSelectPhoto(url: string) {
     // Store photo name in a local attribute, requesting zoom quality instead of cover
-    this.photoSelected = srcPath.replace(`quality=${coverQ}`, `quality=${zoomQ}`);
+    this.selPhotoUrl= url;
+    this.selPhotoName = this.photosManagerService.getPhotoNameFromUrl(this.selPhotoUrl);
 
     $('#photoModal').modal('show');
   }
 
   onDeletePhotoClick() {
-    if (!this.photoSelected) return;
+    if (!this.selPhotoUrl) return;
 
-    this.photosManagerService.deletePhoto(this.photoSelected)
+    this.deleting = true;
+
+    this.photosManagerService.deletePhoto(this.selPhotoUrl)
       .then(() => {
         this.loadAlbumContent(this.albumName)
+        this.deleting = false;
         $('#photoModal').modal('hide');
       })
   }
 
   onCoverPhotoClick() {
-    if (!this.photoSelected) return;
+    if (!this.selPhotoUrl) return;
 
-    this.photosManagerService.setAlbumCover(this.albumName, this.photoSelected)
+    this.settingCover = true;
+
+    this.photosManagerService.setAlbumCover(this.albumName, this.selPhotoUrl)
       .then(() => {
+        this.settingCover = false;
         $('#photoModal').modal('hide');
       })
   }

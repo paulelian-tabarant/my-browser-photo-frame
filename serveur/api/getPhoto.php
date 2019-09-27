@@ -39,13 +39,16 @@
 
         header('Content-Type: image/jpeg');
 
-        $quality = $_GET["quality"];
+        // Resizing with a 1/4 ratio
+        list($width, $height) = getimagesize($path);
+        $newWidth = $width * 0.25;
+        $newHeight = $height * 0.25;
+        $newImg = imagecreatetruecolor($newWidth, $newHeight);
+        imagecopyresampled($newImg, $im, 0, 0, 0, 0, $newWidth, $newHeight, $width, $height);
 
-        // Default quality = 75
-        if (!isset($quality)) $quality = 75;
-
-        imagejpeg($im, null, $quality);
+        imagejpeg($newImg);
         imagedestroy($im);
+        imagedestroy($newImg);
     }
     else {
         http_response_code(500);
