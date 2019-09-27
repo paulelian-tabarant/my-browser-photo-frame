@@ -26,6 +26,12 @@
         </div>
 
         </div>
+        <div *ngIf="photosList.length == 0" class="row">
+            <div class="alert alert-danger col-6" role="alert">
+                Aucune photo pour le moment. Cliquez sur <strong>Ajouter des photos</strong> pour commencer
+                à en ajouter !
+            </div>
+        </div>
         <div class="row">
             <div class="col-md-4" *ngFor="let photo of photosList">
                 <a data-toggle="modal" data-target="#photoModal" (click)="onSelectPhoto(photo)">

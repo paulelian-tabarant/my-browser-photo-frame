@@ -64,7 +64,10 @@ export class PhotosManagerService {
       .toPromise()
       .then((albumInfo: AlbumInfo) => {
         // Convert relative to absolute path
-        albumInfo.cover = `${Config.apiUrl}/getPhoto?name=${albumInfo.cover}`;
+        console.log(albumInfo.cover);
+        // Setting appropriate URL only if the album actually has a cover
+        if (albumInfo.cover)
+          albumInfo.cover = `${Config.apiUrl}/getPhoto?name=${albumInfo.cover}`;
         return albumInfo;
       })
       .catch(PhotosManagerService.handleError);

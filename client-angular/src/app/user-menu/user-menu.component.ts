@@ -18,6 +18,9 @@ export class UserMenuComponent implements OnInit {
   newAlbumTitle: string;
   newAlbumDescription: string;
   newAlbumPassword: string;
+  newAlbumPasswordConfirm: string;
+  passwordMismatch: boolean = false;
+  formSubmitted: boolean = false;
 
   constructor(
     private photosManagerService: PhotosManagerService,
@@ -47,17 +50,22 @@ export class UserMenuComponent implements OnInit {
   }
 
   createNewAlbum() {
-    // TODO: form validation
-    let valid = true;
+    this.formSubmitted = true;
 
-    if (!valid) return;
+    if (this.newAlbumPassword != this.newAlbumPasswordConfirm) {
+      this.passwordMismatch = true;
+      return;
+    }
+
+    this.passwordMismatch = false;
 
     this.photosManagerService.createAlbum(
       this.newAlbumTitle,
       this.newAlbumDescription,
       this.newAlbumPassword)
-      .then(() => 
+      .then(() => {
+        $("#newAlbumModal").modal('hide');
         this.router.navigate([encodeURI("/albumEdit/" + this.newAlbumTitle)])
-      );
+      });
   }
 }

@@ -39,7 +39,7 @@ export class AlbumEditComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.albumName = this.route.snapshot.paramMap.get('name');
+    this.albumName = decodeURI(this.route.snapshot.paramMap.get('name'));
     
     this.photosManagerService.getAlbumInfo(this.albumName)
       .then((albumInfo: AlbumInfo) => { this.albumDescription = albumInfo.description; })
