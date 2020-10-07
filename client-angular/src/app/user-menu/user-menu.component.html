@@ -17,7 +17,9 @@
 														<div *ngIf="!album.cover" class="figure-image text-center">Ajoutez une couverture !</div>
 														<figcaption class="figure-caption text-center">{{ album.name }}</figcaption>
 												</a>
-												<button class="btn btn-danger delete-btn" (click)="deleteAlbum(album.name)">Delete</button>
+												<button class="btn delete-btn" (click)="deleteAlbum(album.name)">
+													<span class="oi oi-x"></span>
+												</button>
 												</figure>
                     </div>
                 </section>
