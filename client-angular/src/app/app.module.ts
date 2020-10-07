@@ -36,7 +36,7 @@ export function initializeApp(config: Config) {
       { path: 'albumView/:name', component: AlbumComponent },
       { path: 'userMenu', component: UserMenuComponent },
       { path: 'albumEdit/:name', component: AlbumEditComponent },
-    ], { useHash: true }),
+    ]),
     SlideshowModule,
     HttpClientModule,
     FormsModule,

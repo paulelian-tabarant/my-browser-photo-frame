@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Config } from './config';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -10,47 +11,43 @@ export class AuthenticationService {
 
   constructor(private http: HttpClient) { }
 
-  private static handleError(error: any) {
-    console.log('Error occured in authentication service.', error);
-  }
+  private static handleError(error: HttpErrorResponse) {
+		return throwError("Error occured in authentication service. : " + error.error.message);
+	}
+	
+	// Network communication
 
-  albumLogin(albumName: string, albumPassword: string) : Promise<any> {
+  albumLogin(albumName: string, albumPassword: string) : Observable<any> {
     const url = `${Config.apiUrl}/albumLogin`;
 
     return this.http.post(url, JSON.stringify({
         'albumName': albumName,
         // temporary : should be sent as hashed (SHA512)
         'albumPassword': albumPassword, 
-      }))
-      .toPromise()
-      .catch((error) => {
-        AuthenticationService.handleError(error);
-        return Observable.throw(new Error());
-      });
+      }), { withCredentials: true })
+      .pipe(
+        catchError(AuthenticationService.handleError)
+      );
   }
 
-  userLogin(username: string, password:string) : Promise<any> {
+  userLogin(username: string, password:string) : Observable<any> {
     const url = `${Config.apiUrl}/userLogin`;
 
     return this.http.post(url, JSON.stringify({
       'username': username,
       'password': password,
-    }), { observe: 'response' })
-    .toPromise()
-    .catch((error) => {
-      AuthenticationService.handleError(error);
-      return Observable.throw(new Error());
-    });
+		}), { observe: 'response', withCredentials: true })
+		.pipe(
+			catchError(AuthenticationService.handleError)
+		);
   }
 
-  getLoggedUser() : Promise<any> {
+  getLoggedUser() : Observable<any> {
     const url = `${Config.apiUrl}/getLoggedUser`
 
-    return this.http.get(url)
-      .toPromise()
-      .catch((error) => {
-        AuthenticationService.handleError(error);
-        return Observable.throw(new Error());
-      });
+		return this.http.get(url, { withCredentials: true })
+			.pipe(
+				catchError(AuthenticationService.handleError)
+			);
   }
 }

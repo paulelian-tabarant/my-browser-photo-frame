@@ -29,24 +29,25 @@ export class UserMenuComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.authService.getLoggedUser()
-      .then((username: string) => this.username = username)
-      .catch(() => {
-        this.loggedIn = false;
-      });
+    this.authService.getLoggedUser().subscribe(
+				(username: string) => this.username = username,
+				(error) => this.loggedIn = false
+			); 
 
     this.albumsList = new Array<AlbumInfo>();
 
-    this.photosManagerService.getAlbumsList()
-      .then((albumsList: string[]) => {
-        albumsList.forEach(album => {
-          this.photosManagerService.getAlbumInfo(album)
-            .then((albumInfo: AlbumInfo) => {
-              this.albumsList.push(albumInfo);
-            });
-        });
-      })
-      .then(() => this.loggedIn = true);
+    this.photosManagerService.getAlbumsList().subscribe(
+				(albumsList: string[]) => {
+					albumsList.forEach(album => {
+						this.photosManagerService.getAlbumInfo(album)
+							.subscribe((albumInfo: AlbumInfo) => {
+								albumInfo.cover = PhotosManagerService.getPhotoUrl(albumInfo.cover);
+								this.albumsList.push(albumInfo);
+							});
+					});
+					this.loggedIn = true;
+				}
+			);
   }
 
   createNewAlbum() {
@@ -62,10 +63,11 @@ export class UserMenuComponent implements OnInit {
     this.photosManagerService.createAlbum(
       this.newAlbumTitle,
       this.newAlbumDescription,
-      this.newAlbumPassword)
-      .then(() => {
-        $("#newAlbumModal").modal('hide');
-        this.router.navigate([encodeURI("/albumEdit/" + this.newAlbumTitle)])
-      });
+      this.newAlbumPassword).subscribe(
+				() => {
+					$("#newAlbumModal").modal('hide');
+					this.router.navigate([encodeURI("/albumEdit/" + this.newAlbumTitle)])
+				}
+			);
   }
 }

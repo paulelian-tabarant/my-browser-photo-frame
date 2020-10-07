@@ -1,6 +1,6 @@
 <?php
     // DB connection script
-	include_once('../../htconfig/dbConfig.php'); 
+	include_once('../../db-config.php'); 
 	$dbSuccess = false;
 	$dbConn = mysqli_connect($db['hostname'],$db['username'],$db['password']);
 	

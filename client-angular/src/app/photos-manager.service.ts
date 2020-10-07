@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable, VirtualTimeScheduler } from 'rxjs';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators'
 import { Config } from './config';
-import { decode } from 'punycode';
 
 export class AlbumInfo {
   name: string;
@@ -28,52 +28,19 @@ export class PhotosManagerService {
 
   });
 
-  static handleError(error : any) {
-    console.log("Error occured in Photos manager service : ");
-    console.log(error);
+  // Photos-related utility functions
+
+  static handleError(error : HttpErrorResponse) {
+    return throwError("Error occured in Photos manager service : " + error.error.message);
   }
 
-  constructor(private http: HttpClient) { }
-
-  // If previously logged into an album, should return all the names
-  // of containing photos.
-  getPhotosList(albumName: string) {
-    const url = encodeURI(`${Config.apiUrl}${this.photosUri}?album=${albumName}`);
-
-    return this.http.get(url)
-      .toPromise()
-      .then((photosUrls: string[]) => {
-        return photosUrls.map(url => 
-          encodeURI(`${Config.apiUrl}/getPhoto?name=${url}`));
-      })
-      .catch(PhotosManagerService.handleError);
+  static getPhotoUrl(photoName: string) : string {
+		let uri = encodeURI(`${Config.apiUrl}/getPhoto?name=${photoName}`); 
+		console.log(uri);
+	  return uri;
   }
 
-  getAlbumsList() {
-    const url = Config.apiUrl + this.albumsUri;
-    return this.http.get(url)
-      .toPromise()
-      .then(albumsList => albumsList as string[])
-      .catch(PhotosManagerService.handleError);
-  }
-
-  getAlbumInfo(name: string) {
-    const url = encodeURI(`${Config.apiUrl}/albumInfo?name=${name}`);
-
-    return this.http.get(url)
-      .toPromise()
-      .then((albumInfo: AlbumInfo) => {
-        // Convert relative to absolute path
-        console.log(albumInfo.cover);
-        // Setting appropriate URL only if the album actually has a cover
-        if (albumInfo.cover)
-          albumInfo.cover = `${Config.apiUrl}/getPhoto?name=${albumInfo.cover}`;
-        return albumInfo;
-      })
-      .catch(PhotosManagerService.handleError);
-  }
-
-  getPhotoNameFromUrl(url: string) {
+  static getPhotoNameFromUrl(url: string) {
     let filePattern = /name=.+\.jpg/;
     let photoPath = decodeURI(url);
     let fileName = filePattern.exec(photoPath)[0];
@@ -82,40 +49,63 @@ export class PhotosManagerService {
     return fileName;
   }
 
-  deletePhoto(photoUrl: string) {
+  constructor(private http: HttpClient) { }
+
+  // Network communication
+
+  // If previously logged into an album, should return all the names
+  // of containing photos.
+  getPhotosList(albumName: string) : Observable<any> {
+    const url = encodeURI(`${Config.apiUrl}${this.photosUri}?album=${albumName}`);
+
+    return this.http.get(url, { withCredentials: true })
+      .pipe(catchError(PhotosManagerService.handleError));
+  }
+
+  getAlbumsList() : Observable<any> {
+    const url = Config.apiUrl + this.albumsUri;
+		return this.http.get(url, { withCredentials: true })
+			.pipe(catchError(PhotosManagerService.handleError));
+  }
+
+  getAlbumInfo(name: string) : Observable<any> {
+    const url = encodeURI(`${Config.apiUrl}/albumInfo?name=${name}`);
+
+    return this.http.get(url, { withCredentials: true })
+      .pipe(catchError(PhotosManagerService.handleError));
+  }
+
+  deletePhoto(photoUrl: string) : Observable<any> {
     // Remove directory path from name for the request (useless)
-    let fileName = this.getPhotoNameFromUrl(photoUrl);
+    let fileName = PhotosManagerService.getPhotoNameFromUrl(photoUrl);
 
     const url = `${Config.apiUrl}/deletePhoto`;
 
     return this.http.post(url, JSON.stringify({
         name: fileName
-      }))
-      .toPromise()
-      .catch(PhotosManagerService.handleError);
+      }), { withCredentials: true })
+      .pipe(catchError(PhotosManagerService.handleError));
   }
 
-  createAlbum(name: string, description: string, password: string) {
+  createAlbum(name: string, description: string, password: string) : Observable<any> {
     const url = `${Config.apiUrl}/newAlbum`;
 
     return this.http.post(url, JSON.stringify({
         name: name,
         description: description,
         password: password,
-      }))
-      .toPromise()
-      .catch(PhotosManagerService.handleError);
+      }), { withCredentials: true })
+      .pipe(catchError(PhotosManagerService.handleError));
   }
 
-  setAlbumCover(albumName: string, photoUrl: string) {
+  setAlbumCover(albumName: string, photoUrl: string) : Observable<any> {
     const url = `${Config.apiUrl}/setAlbumCover`;
-    let photoName = this.getPhotoNameFromUrl(photoUrl);
+    let photoName = PhotosManagerService.getPhotoNameFromUrl(photoUrl);
 
     return this.http.post(url, JSON.stringify({
         album: albumName,
         photo: photoName,
-      }))
-      .toPromise()
-      .catch(PhotosManagerService.handleError);
+      }), { withCredentials: true })
+      .pipe(catchError(PhotosManagerService.handleError));
   }
 }

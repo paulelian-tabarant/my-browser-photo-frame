@@ -33,10 +33,10 @@ export class AlbumLoginComponent implements OnInit {
     let formValid = true;
 
     if (formValid) {
-
-      this.authService.albumLogin(this.albumName, this.albumPassword)
-        .then(() => this.router.navigate([`/albumView/${this.albumName}`]))
-        .catch(() => this.badAlbumLogin = true);
+      this.authService.albumLogin(this.albumName, this.albumPassword).subscribe(
+					() => this.router.navigate([`/albumView/${this.albumName}`]),
+					error => this.badAlbumLogin = true
+			);
     }
   }
 
@@ -45,15 +45,16 @@ export class AlbumLoginComponent implements OnInit {
     let formValid = true;
 
     if (formValid) {
-      this.authService.userLogin(this.userName, this.userPassword)
-        .then(() => { 
+      this.authService.userLogin(this.userName, this.userPassword).subscribe(
+				response => { 
           // Hides fading divider from window
           $('#userModal').modal('hide'); 
 
           this.router.navigate(['/userMenu']); 
-        })
-        .catch(() => this.badUserLogin = true);
+				},
+				// Potential error
+				error => this.badUserLogin = true
+			);
     }
   }
-
 }

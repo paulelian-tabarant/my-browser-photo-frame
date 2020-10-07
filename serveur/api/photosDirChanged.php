@@ -5,7 +5,7 @@
 	 */
 
 	// DB connection script
-	include_once('../../htconfig/dbConfig.php'); 
+	include_once('../../db-config.php'); 
 	$dbSuccess = false;
 	$dbConn = mysqli_connect($db['hostname'],$db['username'],$db['password']);
 	
@@ -19,7 +19,7 @@
 	} 
 
 	if ($dbSuccess) {
-        include_once('../../htconfig/varConfig.php');
+        include_once('../../storage-config.php');
 
 		include_once('../phpFunctions/dbPhotos.php');
 		header('Content-Type: text/event-stream');

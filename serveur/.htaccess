@@ -1,1 +1,17 @@
-Require all granted
+Header set Access-Control-Allow-Origin "http://localhost:4200"
+Header set Access-Control-Allow-Credentials true
+
+# Bidirectional removal of .php extensions on API script files
+RewriteEngine on
+RewriteCond %{THE_REQUEST} /([^.]+)\.php [NC]
+RewriteRule ^ /%1 [NC,L,R]
+
+RewriteCond %{REQUEST_FILENAME}.php -f
+RewriteRule ^(.*)$ $1.php  [NC,L]
+
+# For other links, redirect to index.html
+RewriteBase /
+RewriteRule ^index\.html$ - [L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . /index.html [L]

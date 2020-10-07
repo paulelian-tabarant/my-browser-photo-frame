@@ -1,7 +1,7 @@
 <?php
 
     // DB connection script
-	include_once('../../htconfig/dbConfig.php'); 
+	include_once('../../db-config.php'); 
 	$dbSuccess = false;
 	$dbConn = mysqli_connect($db['hostname'],$db['username'],$db['password']);
 	
@@ -15,7 +15,7 @@
     } 
 
     if ($dbSuccess) {
-        include_once('../../htconfig/varConfig.php');
+        include_once('../../storage-config.php');
         include_once('../phpFunctions/dbAlbums.php');
         include_once('../phpFunctions/dbPhotos.php');
     
@@ -41,7 +41,6 @@
                 // store the lastly delivered list of photos
                 // to monitor changes in database content
                 $_SESSION["photosDirContent"] = $photosArray;
-
                 echo json_encode($photosArray);
             }
         }

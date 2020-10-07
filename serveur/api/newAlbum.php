@@ -1,6 +1,6 @@
 <?php
     // DB connection script
-	include_once('../../htconfig/dbConfig.php'); 
+	include_once('../../db-config.php'); 
 	$dbSuccess = false;
 	$dbConn = mysqli_connect($db['hostname'],$db['username'],$db['password']);
 	
@@ -35,7 +35,8 @@
             die('Bad request parameters.');
         }
 
-        createNewAlbum($dbConn, $albumName, $albumDescription, $albumPassword, $ownerID);
+				createNewAlbum($dbConn, $albumName, $albumDescription, $albumPassword, $ownerID);
+				http_response_code(200);
 
     }
     else {

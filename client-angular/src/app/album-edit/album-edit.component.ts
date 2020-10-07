@@ -15,9 +15,9 @@ export class AlbumEditComponent implements OnInit {
 
   private imageFieldName: string = "photo";
 
-  albumName: string;
-  albumDescription: string;
-  photosList: string[];
+  albumName: string = "No name specified";
+  albumDescription: string = "No description";
+  photosList: string[] = [];
   
   uploader: FileUploader;
   uploadUrl = Config.apiUrl + '/uploadPhoto';
@@ -33,38 +33,41 @@ export class AlbumEditComponent implements OnInit {
 
 
   private loadAlbumContent(name: string) {
-    this.photosManagerService.getPhotosList(name)
-      .then((photosList: string[]) => { this.photosList = photosList; })
-      .catch( /* do things here if necessary */);
+    this.photosManagerService.getPhotosList(name).subscribe(
+			(photosList: string[]) => {
+				if (photosList == null) return;
+				this.photosList = photosList.map( photoName => PhotosManagerService.getPhotoUrl(photoName))
+			}
+		);
   }
 
   ngOnInit() {
-    this.albumName = decodeURI(this.route.snapshot.paramMap.get('name'));
+		this.albumName = decodeURI(this.route.snapshot.paramMap.get('name'));
     
-    this.photosManagerService.getAlbumInfo(this.albumName)
-      .then((albumInfo: AlbumInfo) => { this.albumDescription = albumInfo.description; })
-      .catch( /* do things here if necessary */ );
+    this.photosManagerService.getAlbumInfo(this.albumName).subscribe(
+			(albumInfo: AlbumInfo) => this.albumDescription = albumInfo.description
+		);
 
     this.loadAlbumContent(this.albumName);
 
     this.uploader = new FileUploader({
-      url: this.uploadUrl,
+			url: this.uploadUrl,
       method: "POST",
       itemAlias: this.imageFieldName,
       additionalParameter: {
         'album': this.albumName
       },
-    });
+		});
 
-    this.uploader.response.subscribe(() => {
-      this.loadAlbumContent(this.albumName)
-    });
+    this.uploader.response.subscribe(
+			() => this.loadAlbumContent(this.albumName)
+		);
   }
 
   onSelectPhoto(url: string) {
     // Store photo name in a local attribute, requesting zoom quality instead of cover
     this.selPhotoUrl= url;
-    this.selPhotoName = this.photosManagerService.getPhotoNameFromUrl(this.selPhotoUrl);
+    this.selPhotoName = PhotosManagerService.getPhotoNameFromUrl(this.selPhotoUrl);
 
     $('#photoModal').modal('show');
   }
@@ -74,12 +77,13 @@ export class AlbumEditComponent implements OnInit {
 
     this.deleting = true;
 
-    this.photosManagerService.deletePhoto(this.selPhotoUrl)
-      .then(() => {
+    this.photosManagerService.deletePhoto(this.selPhotoUrl).subscribe(
+			() => {
         this.loadAlbumContent(this.albumName)
         this.deleting = false;
         $('#photoModal').modal('hide');
-      })
+			}
+		);
   }
 
   onCoverPhotoClick() {
@@ -87,10 +91,11 @@ export class AlbumEditComponent implements OnInit {
 
     this.settingCover = true;
 
-    this.photosManagerService.setAlbumCover(this.albumName, this.selPhotoUrl)
-      .then(() => {
+    this.photosManagerService.setAlbumCover(this.albumName, this.selPhotoUrl).subscribe(
+			() => {
         this.settingCover = false;
         $('#photoModal').modal('hide');
-      })
+			}
+		);
   }
 }

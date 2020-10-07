@@ -22,11 +22,12 @@ export class AlbumComponent implements OnInit {
   ngOnInit() {
     this.name = this.route.snapshot.paramMap.get('name');
 
-    this.photosManagerService.getAlbumInfo(this.name)
-      .then((albumInfo : AlbumInfo) => {
+    this.photosManagerService.getAlbumInfo(this.name).subscribe(
+			(albumInfo : AlbumInfo) => {
         this.description = albumInfo.description;
         this.loggedIn = true;
-      });
+			}
+		);
   }
 
 }

@@ -1,7 +1,7 @@
 <?php
 
 	// DB connection script
-	include_once('../../htconfig/dbConfig.php'); 
+	include_once('../../db-config.php'); 
 	$dbSuccess = false;
 	$dbConn = mysqli_connect($db['hostname'],$db['username'],$db['password']);
 	
@@ -15,19 +15,11 @@
     } 
     
     if ($dbSuccess) {
-        include_once('../../htconfig/varConfig.php');
-
         $userID = $_SESSION["userLogged"];
         if (isset($userID)) {
             include_once('../phpFunctions/dbAlbums.php');
             $albumsList = listAlbumsOfUser($dbConn, $userID);
-
-            if (!empty($albumsList)) {
-                echo json_encode($albumsList);
-            }
-            else {
-                http_response_code(404);
-            }
+						echo json_encode($albumsList);
         }
         else {
             http_response_code(401);
