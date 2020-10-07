@@ -2,13 +2,14 @@
 	/**
 	 * Checks for image directory changes and notifies the client
 	 * when a change occurs.
+	 * TODO: analyze behaviour, because script does not work as is
 	 */
 
 	// DB connection script
 	include_once('../phpFunctions/dbConnect.php');
 
 	if ($dbSuccess) {
-        include_once('../../storage-config.php');
+		include_once('../../storage-config.php');
 
 		include_once('../phpFunctions/dbPhotos.php');
 		header('Content-Type: text/event-stream');

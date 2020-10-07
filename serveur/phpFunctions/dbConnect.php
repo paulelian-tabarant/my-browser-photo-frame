@@ -7,7 +7,8 @@
 		$dbSelected = mysqli_select_db($dbConn, $db['database']);
 		if ($dbSelected) {
 			$dbSuccess = true;
-		} else {
+		}
+		else {
 			echo "DB Selection FAILed";
 		}
 	} 

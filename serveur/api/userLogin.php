@@ -3,7 +3,7 @@
 	include_once('../phpFunctions/dbConnect.php');
 
 	if ($dbSuccess) {
-        include_once('../../storage-config.php');
+		include_once('../../storage-config.php');
 		include_once('../phpFunctions/dbAuth.php');
 
 		$data = json_decode(file_get_contents("php://input"));

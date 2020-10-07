@@ -30,25 +30,29 @@ export class UserMenuComponent implements OnInit {
 
   ngOnInit() {
     this.authService.getLoggedUser().subscribe(
-				(username: string) => this.username = username,
-				(error) => this.loggedIn = false
-			); 
+			(username: string) => this.username = username,
+			(error) => this.loggedIn = false
+		); 
 
+		this.loadAlbums();
+	}
+	
+	loadAlbums() {
     this.albumsList = new Array<AlbumInfo>();
 
     this.photosManagerService.getAlbumsList().subscribe(
-				(albumsList: string[]) => {
-					albumsList.forEach(album => {
-						this.photosManagerService.getAlbumInfo(album)
-							.subscribe((albumInfo: AlbumInfo) => {
-								albumInfo.cover = PhotosManagerService.getPhotoUrl(albumInfo.cover);
-								this.albumsList.push(albumInfo);
-							});
-					});
-					this.loggedIn = true;
-				}
-			);
-  }
+			(albumsList: string[]) => {
+				albumsList.forEach(album => {
+					this.photosManagerService.getAlbumInfo(album).subscribe(
+						(albumInfo: AlbumInfo) => {
+							albumInfo.cover = PhotosManagerService.getPhotoUrl(albumInfo.cover);
+							this.albumsList.push(albumInfo);
+						});
+				});
+				this.loggedIn = true;
+			}
+		);
+	}
 
   createNewAlbum() {
     this.formSubmitted = true;
@@ -69,5 +73,12 @@ export class UserMenuComponent implements OnInit {
 					this.router.navigate([encodeURI("/albumEdit/" + this.newAlbumTitle)])
 				}
 			);
-  }
+	}
+	
+	deleteAlbum(name: string) {
+		this.photosManagerService.deleteAlbum(name).subscribe(
+			() => this.loadAlbums(),
+			(error) => console.log("Error while deleting album with name " + name)
+		);
+	}
 }

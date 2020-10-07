@@ -17,7 +17,8 @@ export class PhotosManagerService {
 
   private photosUri: string = "/photosList";
   private albumsUri: string = "/albumsList";
-  
+	
+	// TODO: verify behaviour, not working as is
   photosDirChanged = new Observable((observer) => {
 
     const photosDirChangedSource = new EventSource(Config.apiUrl + '/photosDirChanged');
@@ -35,9 +36,11 @@ export class PhotosManagerService {
   }
 
   static getPhotoUrl(photoName: string) : string {
-		let uri = encodeURI(`${Config.apiUrl}/getPhoto?name=${photoName}`); 
-		console.log(uri);
-	  return uri;
+
+		if (photoName === null)
+			return "assets/images/noimage.png";
+
+		return encodeURI(`${Config.apiUrl}/getPhoto?name=${photoName}`); 
   }
 
   static getPhotoNameFromUrl(url: string) {
@@ -96,7 +99,16 @@ export class PhotosManagerService {
         password: password,
       }), { withCredentials: true })
       .pipe(catchError(PhotosManagerService.handleError));
-  }
+	}
+	
+	deleteAlbum(name: string) : Observable<any> {
+		const url = `${Config.apiUrl}/deleteAlbum`;
+
+		return this.http.post(url, JSON.stringify({
+			name: name
+			}), { withCredentials: true })
+			.pipe(catchError(PhotosManagerService.handleError));
+	}
 
   setAlbumCover(albumName: string, photoUrl: string) : Observable<any> {
     const url = `${Config.apiUrl}/setAlbumCover`;
