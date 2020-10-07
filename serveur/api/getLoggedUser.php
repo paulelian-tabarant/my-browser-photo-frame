@@ -1,33 +1,22 @@
 <?php
     // DB connection script
-	include_once('../../db-config.php'); 
-	$dbSuccess = false;
-	$dbConn = mysqli_connect($db['hostname'],$db['username'],$db['password']);
-	
-	if ($dbConn) {		
-		$dbSelected = mysqli_select_db($dbConn, $db['database']);
-		if ($dbSelected) {
-			$dbSuccess = true;
-		} else {
-			echo "DB Selection FAILed";
-		}
-    } 
+	include_once('../phpFunctions/dbConnect.php');
 
-    if ($dbSuccess) {
+	if ($dbSuccess) {
 
-        $userID = $_SESSION["userLogged"];
+			$userID = $_SESSION["userLogged"];
 
-        if (!isset($userID)) {
-            http_response_code(404);
-            die('Logged user not found. Please sign in again.');
-        }
+			if (!isset($userID)) {
+					http_response_code(404);
+					die('Logged user not found. Please sign in again.');
+			}
 
-        include_once("../phpFunctions/dbAuth.php");
-        $userName = getUserNameByID($dbConn, $userID);
+			include_once("../phpFunctions/dbAuth.php");
+			$userName = getUserNameByID($dbConn, $userID);
 
-        echo json_encode($userName);
-    }
-    else {
-        http_response_code(500);
-    }
+			echo json_encode($userName);
+	}
+	else {
+			http_response_code(500);
+	}
 ?>
