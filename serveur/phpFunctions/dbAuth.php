@@ -30,7 +30,27 @@
 			} 
 
 			return $authSuccess;
-    }
+		}
+		
+		function createUser($dbConn, $username, $password) {
+			$passwordSHA2 = hash("sha512", $password);
+			
+			$createUser_SQL = "INSERT INTO tUsers (name, password) ";
+			$createUser_SQL .= "VALUES ('" . $username . "', '" . $passwordSHA2 . "') ";
+
+			$createUser_res = mysqli_query($dbConn, $createUser_SQL);
+
+			if (!$createUser_res) return false;
+
+			$newUserID = getUserIDByName($dbConn, $username);
+			if (isset($newUserID)) {
+				$_SESSION["userLogged"] = $newUserID;
+			}
+
+			mysqli_free_result($createUser_res);
+			// Confirm user creation
+			return true;
+		}
 
     function userAuth($dbConn, $username, $password) {
 			$passwordSHA2 = hash("sha512", $password);
@@ -72,6 +92,16 @@
 			}
 
 			return $userName;
-    }
+		}
+		
+		function getUserIDByName($dbConn, $username) {
+			$getUserID_SQL = "SELECT ID FROM tUsers ";
+			$getUserID_SQL .= "WHERE name = '" . $username . "'";
+
+			$getUserID_res = mysqli_query($dbConn, $getUserID_SQL);
+
+			$row = mysqli_fetch_array($getUserID_res, MYSQLI_ASSOC);
+			return $row["ID"];
+		}
 
 ?>

@@ -16,7 +16,7 @@
 		$data = (array)$data;
 		$albumName = $data["name"];
 		if (!isset($albumName)) {
-			http_response_code(401);
+			http_response_code(400);
 			die('Error: no album name specified.');
 		}
 

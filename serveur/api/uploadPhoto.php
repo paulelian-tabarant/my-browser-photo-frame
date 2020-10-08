@@ -1,4 +1,5 @@
 <?php
+	// Handle potential "OPTION" request by photo uploader on client side
 	if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
 		if ($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_METHOD'] == 'POST') {
 			exit;
@@ -8,6 +9,7 @@
 			die("Method not available.");
 		}
 	}
+
 	// DB connection script
 	include_once('../phpFunctions/dbConnect.php');
 

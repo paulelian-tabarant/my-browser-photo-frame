@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Oct 07, 2020 at 03:51 PM
+-- Generation Time: Oct 08, 2020 at 12:17 PM
 -- Server version: 8.0.21-0ubuntu0.20.04.4
 -- PHP Version: 7.4.3
 
@@ -89,7 +89,8 @@ ALTER TABLE `tPhotos`
 -- Indexes for table `tUsers`
 --
 ALTER TABLE `tUsers`
-  ADD PRIMARY KEY (`ID`);
+  ADD PRIMARY KEY (`ID`),
+  ADD UNIQUE KEY `name` (`name`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -99,19 +100,19 @@ ALTER TABLE `tUsers`
 -- AUTO_INCREMENT for table `tAlbums`
 --
 ALTER TABLE `tAlbums`
-  MODIFY `ID` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `ID` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `tPhotos`
 --
 ALTER TABLE `tPhotos`
-  MODIFY `ID` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `ID` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
 
 --
 -- AUTO_INCREMENT for table `tUsers`
 --
 ALTER TABLE `tUsers`
-  MODIFY `ID` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `ID` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -1,64 +1,120 @@
 <main class="container-fluid full-height">
-    <div class="row justify-content-center h-100">
-        <div class="col-sm-12 col-md-6 col-lg-3">
-            <div class="d-flex flex-column align-items-center h-100">
-                <div class="d-flex flex-column justify-content-center flex-grow-1 w-100">
-                    <div>
-                        <h2>Charger un album</h2>
-                        <form name="albumLoginForm" method="post" (submit)="sendAlbumLogin()">
-                            <div class="form-group">
-                                <input class="form-control" [(ngModel)]="albumName" id=albumName type=text name=albumName size=12 required placeholder="Nom de l'album">
-                            </div>
-                            <div class="form-group">
-                                <input class="form-control" [(ngModel)]="albumPassword" id=albumPassword type="password" name=albumPassword size=12 required placeholder="Mot de passe">
-                            </div>
-                            <div class="input-group">
-                                <input type="submit" [ngClass]="{'form-control': true, 'btn': true, 'is-invalid': badAlbumLogin}" value="Charger l'album">
-                                <div class="invalid-feedback">
-                                    {{ loginError }}
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-                <div>
-                    Créer / éditer un album ?
-                </div>
-                <a href=# class="text-decoration-none" data-toggle="modal" data-target="#userModal"> Se connecter </a>
-
-                <!-- User modal login window -->
-                <div class="modal fade" id="userModal" tabindex="-1" role="dialog">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h2 class="modal-title">Votre compte utilisateur</h2>
-                                <button type="button" class="close" data-dismiss="modal">
-                                    <span>&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                <form method="post" (submit)="sendUserLogin()">
-                                    <div class="form-group">
-                                        <input type="text" class="form-control" [(ngModel)]="userName" name="username" placeholder="Nom d'utilisateur" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <input type="password" class="form-control" [(ngModel)]="userPassword" name="password" placeholder="Mot de passe">
-                                    </div>
-                                    <div class="input-group">
-                                        <input type="submit" [ngClass]="{'form-control': true, 'btn': true, 'is-invalid': badUserLogin}" value="Connexion">
-                                        <div class="invalid-feedback">
-                                            {{ loginError }}
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
+  <div class="row justify-content-between mt-4">
+    <div class="col-4">
+      <div>Créer / éditer un album ?</div>
+      <a href=# class="text-decoration-none" data-toggle="modal" data-target="#userModal"> Se connecter </a>
     </div>
+    <div class="col-4 d-flex flex-column align-items-end">
+      <div>Nouvel utilisateur ?</div>
+      <a href="" class="text-decoration-none" data-toggle="modal" data-target="#newUserModal">S'inscrire</a>
+    </div>
+  </div>
+  <div class="row justify-content-center h-100">
+    <div class="col-sm-12 col-md-6 col-lg-3">
+      <div class="d-flex flex-column align-items-center h-100">
+        <div class="d-flex flex-column justify-content-center flex-grow-1 w-100">
+          <div>
+            <h2>Charger un album</h2>
+            <form name="albumLoginForm" method="post" (submit)="sendAlbumLogin()">
+              <div class="form-group">
+                <input class="form-control" [(ngModel)]="albumName" id=albumName type=text name=albumName size=12
+                  required placeholder="Nom de l'album">
+              </div>
+              <div class="form-group">
+                <input class="form-control" [(ngModel)]="albumPassword" id=albumPassword type="password"
+                  name=albumPassword size=12 required placeholder="Mot de passe">
+              </div>
+              <div class="input-group">
+                <input type="submit" [ngClass]="{'form-control': true, 'btn': true, 'is-invalid': badAlbumLogin}"
+                  value="Charger l'album">
+                <div class="invalid-feedback">
+                  {{ loginError }}
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <!-- User modal login window -->
+        <div class="modal fade" id="userModal" tabindex="-1" role="dialog">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h2 class="modal-title">Votre compte utilisateur</h2>
+                <button type="button" class="close" data-dismiss="modal">
+                  <span>&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <form method="post" (submit)="sendUserLogin()">
+                  <div class="form-group">
+                    <input type="text" class="form-control" [(ngModel)]="userName" name="username"
+                      placeholder="Nom d'utilisateur" required>
+                  </div>
+                  <div class="form-group">
+                    <input type="password" class="form-control" [(ngModel)]="userPassword" name="password"
+                      placeholder="Mot de passe">
+                  </div>
+                  <div class="input-group">
+                    <input type="submit" [ngClass]="{'form-control': true, 'btn': true, 'is-invalid': badUserLogin}"
+                      value="Connexion">
+                    <div class="invalid-feedback">
+                      {{ loginError }}
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal fade" id="newUserModal" tabindex="-1" role="dialog">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h2 class="modal-title">Créer un compte</h2>
+                <button type="button" class="close" data-dismiss="modal">
+                  <span>&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <form method="post" (ngSubmit)="sendUserCreate()" #newUserForm="ngForm">
+                  <div class="form-group">
+                    <label for="newUsername">Nom d'utilisateur *</label>
+                    <input type="text" class="form-control" [(ngModel)]="newUsername" placeholder="ex: jpfoucault"
+                      name="new-username" required #username="ngModel">
+                    <div *ngIf="username.invalid && !username.pristine" class="alert alert-danger" role="alert">
+                      Saisissez un nom d'utilisateur.
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="newPassword">Mot de passe *</label>
+                    <input type="password" class="form-control" [(ngModel)]="newPassword" placeholder="••••••••"
+                      name="new-password" minlength="6" required #password="ngModel">
+                    <div *ngIf="password.invalid && !password.pristine" class="alert alert-danger" role="alert">
+                      Veuillez renseigner un mot de passe valide (au moins 6 caractères).
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="newPasswordConfirm">Confirmer mot de passe *</label>
+                    <input type="password" class="form-control" [(ngModel)]="newPasswordConfirm" placeholder="••••••••"
+                      name="new-password-confirm" minlength="6" required>
+                    <div *ngIf="passwordMismatch" class="alert alert-danger" role="alert">
+                      La confirmation ne correspond pas au mot de passe initialement saisi.
+                    </div>
+                  </div>
+                  <input type="submit" [ngClass]="{'form-control': true, 'btn': true, 'is-invalid': badUserCreate}"
+                    value="S'inscrire">
+                  <div *ngIf="badUserCreate" class="alert alert-danger">
+                    Erreur: impossible de créer l'utilisateur. Vérifiez votre saisie, ou réessayez plus tard.
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
 </main>
-
-

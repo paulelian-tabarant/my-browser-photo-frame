@@ -20,7 +20,6 @@ export class UserMenuComponent implements OnInit {
   newAlbumPassword: string;
   newAlbumPasswordConfirm: string;
   passwordMismatch: boolean = false;
-  formSubmitted: boolean = false;
 
   constructor(
     private photosManagerService: PhotosManagerService,
@@ -55,8 +54,6 @@ export class UserMenuComponent implements OnInit {
 	}
 
   createNewAlbum() {
-    this.formSubmitted = true;
-
     if (this.newAlbumPassword != this.newAlbumPasswordConfirm) {
       this.passwordMismatch = true;
       return;

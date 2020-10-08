@@ -1,93 +1,97 @@
 <main class="container-fluid mt-3">
-    <div *ngIf="loggedIn">
-        <h1 class="mb-5 text-center">Bonjour, <strong>{{ username }}</strong> !</h1>
-        <div class="container pt-sm-1 pt-md-2 pt-lg-3">
-            <div class="d-flex justify-content-between">
-                <h2><span class="oi oi-image"></span> Vos albums</h2>
-                <a href="" data-toggle="modal" data-target="#newAlbumModal">
-                    <span class="oi oi-plus"></span> Nouvel album
-                </a>
-            </div>
-            <div class="row justify-content-between">
-                <section class="col-md-6 col-lg-4" *ngFor="let album of albumsList">
-                    <div class="d-flex">
-												<figure class="figure">
-												<a routerLink="/albumEdit/{{album.name}}">
-														<img *ngIf="album.cover" [src]=album.cover class="figure-image rounded" alt="{{album.name}}">
-														<div *ngIf="!album.cover" class="figure-image text-center">Ajoutez une couverture !</div>
-														<figcaption class="figure-caption text-center">{{ album.name }}</figcaption>
-												</a>
-												<button class="btn delete-btn" (click)="deleteAlbum(album.name)">
-													<span class="oi oi-x"></span>
-												</button>
-												</figure>
-                    </div>
-                </section>
-            </div>
-        </div>
+  <div *ngIf="loggedIn">
+    <h1 class="mb-5 text-center">Bonjour, <strong>{{ username }}</strong> !</h1>
+    <div class="container pt-sm-1 pt-md-2 pt-lg-3">
+      <div class="d-flex justify-content-between">
+        <h2><span class="oi oi-image"></span> Vos albums</h2>
+        <a href="" data-toggle="modal" data-target="#newAlbumModal">
+          <span class="oi oi-plus"></span> Nouvel album
+        </a>
+      </div>
+      <div class="row justify-content-between">
+        <section class="col-md-6 col-lg-4" *ngFor="let album of albumsList">
+          <div class="d-flex">
+            <figure class="figure">
+              <a routerLink="/albumEdit/{{album.name}}">
+                <img *ngIf="album.cover" [src]=album.cover class="figure-image rounded" alt="{{album.name}}">
+                <div *ngIf="!album.cover" class="figure-image text-center">Ajoutez une couverture !</div>
+                <figcaption class="figure-caption text-center">{{ album.name }}</figcaption>
+              </a>
+              <button class="btn delete-btn" (click)="deleteAlbum(album.name)">
+                <span class="oi oi-x"></span>
+              </button>
+            </figure>
+          </div>
+        </section>
+      </div>
+    </div>
 
-        <div class="modal fade" id="newAlbumModal" tabindex="-1" aria-labelledby="newAlbumModalTitle" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h2 class="modal-title" id="newAlbumModalTitle">Créer un album</h2>
-                        <button type="button" class="close" data-dismiss="modal">
-                            <span aria-hidden="true" class="oi oi-x"></span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <form (ngSubmit)="createNewAlbum()" #albumForm="ngForm">
-                            <div class="form-group">
-                                <label for="albumTitle">Nom *</label>
-                                <input type="text" class="form-control" name="name" [(ngModel)]="newAlbumTitle" id="albumTitle" placeholder="Nom de l'album" required #name="ngModel">
-                                <div *ngIf="name.invalid && !name.pristine" class="alert alert-danger">
-                                    <div *ngIf="name.errors.required">
-                                        Vous devez donner un nom à votre album.
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="albumDescription">Description</label>
-                                <textarea class="form-control" name="decription" [(ngModel)]="newAlbumDescription" id="albumDescription" placeholder="Décrivez votre album en quelques mots." required #description="ngModel"></textarea>
-                                <div *ngIf="description.invalid && !description.pristine" class="alert alert-danger">
-                                    Donnez une description à votre album.
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="albumPassword">Mot de passe *</label>
-                                <input type="password" class="form-control" name="password" [(ngModel)]="newAlbumPassword" id="albumPassword" placeholder="••••••••" minlength="6" required #password="ngModel">
-                                <div *ngIf="password.invalid && !password.pristine" class="alert alert-danger">
-                                    <div *ngIf="password.errors.required">
-                                        Veuillez renseigner un mot de passe.
-                                    </div>
-                                    <div *ngIf="password.errors.minlength">
-                                        Votre mot de passe doit comporter au moins 6 caractères.
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="albumPasswordConfirm">Confirmer mot de passe *</label>
-                                <input type="password" class="form-control" name="passwordConfirm" [(ngModel)]="newAlbumPasswordConfirm" id="albumPasswordConfirm" placeholder="••••••••" required #passwordConfirm="ngModel">
-                                <div *ngIf="passwordConfirm.invalid && !passwordConfirm.pristine" class="alert alert-danger">
-                                    <div *ngIf="passwordConfirm.errors.required">
-                                        Confirmez le mot de passe.
-                                    </div>
-                                </div>
-                            </div>
-                            <div *ngIf="passwordMismatch" class="alert alert-danger" role="alert">
-                                Le mot de passe et sa confirmation ne correspondent pas.
-                            </div>
-                            <button type="submit" class="form-control btn" [disabled]="!albumForm.form.valid">Valider</button>
-                        </form>
-                    </div>
+    <div class="modal fade" id="newAlbumModal" tabindex="-1" aria-labelledby="newAlbumModalTitle" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h2 class="modal-title" id="newAlbumModalTitle">Créer un album</h2>
+            <button type="button" class="close" data-dismiss="modal">
+              <span aria-hidden="true" class="oi oi-x"></span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form (ngSubmit)="createNewAlbum()" #albumForm="ngForm">
+              <div class="form-group">
+                <label for="albumTitle">Nom *</label>
+                <input type="text" class="form-control" name="name" [(ngModel)]="newAlbumTitle" id="albumTitle"
+                  placeholder="Nom de l'album" required #name="ngModel">
+                <div *ngIf="name.invalid && !name.pristine" class="alert alert-danger">
+                  <div *ngIf="name.errors.required">
+                    Vous devez donner un nom à votre album.
+                  </div>
                 </div>
-            </div>
-        </div>
-    </div>
+              </div>
+              <div class="form-group">
+                <label for="albumDescription">Description</label>
+                <textarea class="form-control" name="decription" [(ngModel)]="newAlbumDescription" id="albumDescription"
+                  placeholder="Décrivez votre album en quelques mots." required #description="ngModel"></textarea>
+                <div *ngIf="description.invalid && !description.pristine" class="alert alert-danger">
+                  Donnez une description à votre album.
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="albumPassword">Mot de passe *</label>
+                <input type="password" class="form-control" name="password" [(ngModel)]="newAlbumPassword"
+                  id="albumPassword" placeholder="••••••••" minlength="6" required #password="ngModel">
+                <div *ngIf="password.invalid && !password.pristine" class="alert alert-danger">
+                  <div *ngIf="password.errors.required">
+                    Veuillez renseigner un mot de passe.
+                  </div>
+                  <div *ngIf="password.errors.minlength">
+                    Votre mot de passe doit comporter au moins 6 caractères.
+                  </div>
+                </div>
+              </div>
 
-    <div *ngIf="!loggedIn">
-        <h1>Accès refusé</h1>
-        <p>Authentifiez-vous pour pouvoir consulter vos albums.</p>
+              <div class="form-group">
+                <label for="albumPasswordConfirm">Confirmer mot de passe *</label>
+                <input type="password" class="form-control" name="passwordConfirm" [(ngModel)]="newAlbumPasswordConfirm"
+                  id="albumPasswordConfirm" placeholder="••••••••" required #passwordConfirm="ngModel">
+                <div *ngIf="passwordConfirm.invalid && !passwordConfirm.pristine" class="alert alert-danger">
+                  <div *ngIf="passwordConfirm.errors.required">
+                    Confirmez le mot de passe.
+                  </div>
+                </div>
+              </div>
+              <div *ngIf="passwordMismatch" class="alert alert-danger" role="alert">
+                Le mot de passe et sa confirmation ne correspondent pas.
+              </div>
+              <button type="submit" class="form-control btn" [disabled]="!albumForm.form.valid">Valider</button>
+            </form>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
+
+  <div *ngIf="!loggedIn">
+    <h1>Accès refusé</h1>
+    <p>Authentifiez-vous pour pouvoir consulter vos albums.</p>
+  </div>
 </main>

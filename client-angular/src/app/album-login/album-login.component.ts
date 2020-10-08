@@ -12,14 +12,21 @@ export class AlbumLoginComponent implements OnInit {
   // Album login variables
   albumName: string;
   albumPassword: string;
+  badAlbumLogin: boolean = false;
 
   // User login variables
   userName: string;
   userPassword: string;
-
   loginError: string = "Connexion impossible. Vérifiez vos identifiants.";
-  badAlbumLogin: boolean = false;
-  badUserLogin: boolean = false;
+	badUserLogin: boolean = false;
+	
+	// User creation variables
+	newUsername: string;
+	newPassword: string;
+	newPasswordConfirm: string;
+	passwordMismatch: boolean = false;
+	userCreateError: string = "Impossible de créer un nouvel utilisateur. Vérifiez votre saisie.";
+	badUserCreate: boolean = false;
 
   constructor(
     private authService: AuthenticationService,
@@ -42,19 +49,34 @@ export class AlbumLoginComponent implements OnInit {
 
   sendUserLogin() {
     // TODO: Verify form data before sending
-    let formValid = true;
 
-    if (formValid) {
-      this.authService.userLogin(this.userName, this.userPassword).subscribe(
-				response => { 
-          // Hides fading divider from window
-          $('#userModal').modal('hide'); 
+		this.authService.userLogin(this.userName, this.userPassword).subscribe(
+			success => { 
+				// Hides fading divider from window
+				$('#userModal').modal('hide'); 
 
-          this.router.navigate(['/userMenu']); 
-				},
-				// Potential error
-				error => this.badUserLogin = true
-			);
-    }
-  }
+				this.router.navigate(['/userMenu']); 
+			},
+			error => this.badUserLogin = true
+		);
+	}
+	
+	sendUserCreate() {
+		// TODO: Verify form data before sending
+
+		if (this.newPassword !== this.newPasswordConfirm) {
+			this.passwordMismatch = true;
+			return;
+		}
+
+		this.passwordMismatch = false;
+
+		this.authService.userCreate(this.newUsername, this.newPassword).subscribe(
+			success => {
+				$('#newUserModal').modal('hide');
+				this.router.navigate(['/userMenu']);
+			},
+			error => this.badUserCreate = true
+		);
+	}
 }

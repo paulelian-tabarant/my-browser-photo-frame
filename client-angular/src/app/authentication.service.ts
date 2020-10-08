@@ -28,9 +28,21 @@ export class AuthenticationService {
       .pipe(
         catchError(AuthenticationService.handleError)
       );
-  }
+	}
+	
+	userCreate(username: string, password: string) : Observable<any> {
+		const url = `${Config.apiUrl}/newUser`;
 
-  userLogin(username: string, password:string) : Observable<any> {
+		return this.http.post(url, JSON.stringify({
+			'username': username,
+			'password': password,
+		}), { observe: 'response', withCredentials: true })
+		.pipe(
+			catchError(AuthenticationService.handleError)
+		);
+	}
+
+  userLogin(username: string, password: string) : Observable<any> {
     const url = `${Config.apiUrl}/userLogin`;
 
     return this.http.post(url, JSON.stringify({
