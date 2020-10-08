@@ -16,6 +16,12 @@ a {
     object-fit: cover;
 }
 
+@media (max-width: 768px) {
+	.figure-image {
+		width: 100%;
+	}
+}
+
 .delete-btn {
 	position: relative;
 	bottom: 85%;
