@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { PhotosManagerService, AlbumInfo } from '../photos-manager.service';
 import { FileUploader } from 'ng2-file-upload';
@@ -12,10 +12,10 @@ import { Config } from '../config';
   styleUrls: ['./album-edit.component.scss']
 })
 export class AlbumEditComponent implements OnInit {
+	@Input() albumName;
 
   private imageFieldName: string = "photo";
 
-  albumName: string = "No name specified";
   albumDescription: string = "No description";
   photosList: string[] = [];
   
@@ -42,8 +42,6 @@ export class AlbumEditComponent implements OnInit {
   }
 
   ngOnInit() {
-		this.albumName = decodeURI(this.route.snapshot.paramMap.get('name'));
-    
     this.photosManagerService.getAlbumInfo(this.albumName).subscribe(
 			(albumInfo: AlbumInfo) => this.albumDescription = albumInfo.description
 		);

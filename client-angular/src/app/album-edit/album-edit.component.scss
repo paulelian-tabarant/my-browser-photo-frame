@@ -12,7 +12,10 @@
 }
 
 .edit-album-header {
-    display: inline-block;
+		display: inline-block;
+		strong {
+			color: firebrick;
+		}
 }
 
 .text-ellipsed {

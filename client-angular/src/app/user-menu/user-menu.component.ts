@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { PhotosManagerService, AlbumInfo } from '../photos-manager.service';
 import { AuthenticationService } from '../authentication.service';
 import { Router } from '@angular/router';
 
@@ -11,20 +10,14 @@ import { Router } from '@angular/router';
 export class UserMenuComponent implements OnInit {
 
   username: string;
-  albumsList: AlbumInfo[];
-
-  loggedIn: boolean = false;
-
-  newAlbumTitle: string;
-  newAlbumDescription: string;
-  newAlbumPassword: string;
-  newAlbumPasswordConfirm: string;
-  passwordMismatch: boolean = false;
+	loggedIn: boolean = true;
+	
+	selectedAlbumName: string = "";
+	lastSelectedAlbumName: string = "";
 
   constructor(
-    private photosManagerService: PhotosManagerService,
-    private authService: AuthenticationService,
-    private router: Router,
+		private authService: AuthenticationService,
+		private router: Router
   ) { }
 
   ngOnInit() {
@@ -32,50 +25,21 @@ export class UserMenuComponent implements OnInit {
 			(username: string) => this.username = username,
 			(error) => this.loggedIn = false
 		); 
-
-		this.loadAlbums();
-	}
-	
-	loadAlbums() {
-    this.albumsList = new Array<AlbumInfo>();
-
-    this.photosManagerService.getAlbumsList().subscribe(
-			(albumsList: string[]) => {
-				albumsList.forEach(album => {
-					this.photosManagerService.getAlbumInfo(album).subscribe(
-						(albumInfo: AlbumInfo) => {
-							albumInfo.cover = PhotosManagerService.getPhotoUrl(albumInfo.cover);
-							this.albumsList.push(albumInfo);
-						});
-				});
-				this.loggedIn = true;
-			}
-		);
 	}
 
-  createNewAlbum() {
-    if (this.newAlbumPassword != this.newAlbumPasswordConfirm) {
-      this.passwordMismatch = true;
-      return;
-    }
-
-    this.passwordMismatch = false;
-
-    this.photosManagerService.createAlbum(
-      this.newAlbumTitle,
-      this.newAlbumDescription,
-      this.newAlbumPassword).subscribe(
-				() => {
-					$("#newAlbumModal").modal('hide');
-					this.router.navigate([encodeURI("/albumEdit/" + this.newAlbumTitle)])
-				}
-			);
+	onAlbumEdit(name: string) {
+		this.selectedAlbumName = name;
+		this.lastSelectedAlbumName = this.selectedAlbumName;
 	}
-	
-	deleteAlbum(name: string) {
-		this.photosManagerService.deleteAlbum(name).subscribe(
-			() => this.loadAlbums(),
-			(error) => console.log("Error while deleting album with name " + name)
+
+	onBack() {
+		this.selectedAlbumName = "";
+	}
+
+	onLogout() {
+		this.authService.userLogout().subscribe(
+			// TODO: implement logout in authentication service and server
+			() => this.router.navigate([''])
 		);
 	}
 }

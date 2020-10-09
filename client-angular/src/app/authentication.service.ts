@@ -61,5 +61,10 @@ export class AuthenticationService {
 			.pipe(
 				catchError(AuthenticationService.handleError)
 			);
-  }
+	}
+	
+	// TO BE COMPLETED
+	userLogout() {
+		return new Observable<any>();
+	}
 }

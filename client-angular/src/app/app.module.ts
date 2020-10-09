@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 import { SlideshowModule } from 'ng-simple-slideshow';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
@@ -15,10 +15,17 @@ import { UserMenuComponent } from './user-menu/user-menu.component';
 
 import { APP_INITIALIZER } from '@angular/core';
 import { Config } from './config';
+import { AlbumListComponent } from './album-list/album-list.component';
 
 export function initializeApp(config: Config) {
   return  () => config.load();
 }
+
+const routes: Routes = [
+	{ path: '', component: AlbumLoginComponent },
+	{ path: 'albumView/:name', component: AlbumComponent },
+	{ path: 'userMenu', component: UserMenuComponent }
+];
 
 @NgModule({
   declarations: [
@@ -28,15 +35,11 @@ export function initializeApp(config: Config) {
     AlbumComponent,
     AlbumEditComponent,
     UserMenuComponent,
+    AlbumListComponent,
   ],
   imports: [
     BrowserModule,
-    RouterModule.forRoot([
-      { path: '', component: AlbumLoginComponent },
-      { path: 'albumView/:name', component: AlbumComponent },
-      { path: 'userMenu', component: UserMenuComponent },
-      { path: 'albumEdit/:name', component: AlbumEditComponent },
-    ]),
+    RouterModule.forRoot(routes),
     SlideshowModule,
     HttpClientModule,
     FormsModule,

@@ -1,0 +1,35 @@
+a {
+    img {
+        opacity: 0.8;
+    }
+
+    &:hover {
+        img {
+            opacity: 1;
+        }
+    }
+}
+
+figure {
+	height: 300px;
+}
+
+.figure-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+@media (max-width: 768px) {
+	.figure-image {
+		width: 100%;
+	}
+}
+
+.delete-btn {
+	position: absolute;
+	top: 5px;
+	right: 20px;
+	background-color: firebrick;
+	color: white;
+}
