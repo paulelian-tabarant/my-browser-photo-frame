@@ -1,4 +1,6 @@
 Header set Access-Control-Allow-Origin "http://localhost:4200"
+# Add header types here, we allow every header type by default
+Header set Access-Control-Allow-Headers "*"
 Header set Access-Control-Allow-Credentials true
 
 # Bidirectional removal of .php extensions on API script files

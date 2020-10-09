@@ -31,6 +31,7 @@ export class AlbumListComponent implements OnInit {
 
 	loadAlbums()
 	{
+		this.albumsList = [];
     this.photosManagerService.getAlbumsList().subscribe(
 			(albumsList: string[]) => {
 				albumsList.forEach(album => {

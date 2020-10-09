@@ -9,7 +9,7 @@
 <div *ngIf="albumsList.length === 0" class="alert alert-danger">
 	Vous n'avez aucun album pour le moment. Cliquez sur <strong>Nouvel album</strong> pour commencer ! 
 </div>
-<div class="row justify-content-between">
+<div class="row justify-content-start">
 	<section class="col-md-6 col-lg-4 d-flex" *ngFor="let album of albumsList">
 		<figure class="figure w-100">
 			<a (click)="onAlbumClick(album.name)">

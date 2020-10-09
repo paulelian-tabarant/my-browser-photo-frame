@@ -55,7 +55,7 @@ export class AuthenticationService {
   }
 
   getLoggedUser() : Observable<any> {
-    const url = `${Config.apiUrl}/getLoggedUser`
+    const url = `${Config.apiUrl}/getLoggedUser`;
 
 		return this.http.get(url, { withCredentials: true })
 			.pipe(
@@ -63,8 +63,12 @@ export class AuthenticationService {
 			);
 	}
 	
-	// TO BE COMPLETED
-	userLogout() {
-		return new Observable<any>();
+	userLogout() : Observable<any> {
+		const url = `${Config.apiUrl}/userLogout`;
+
+		return this.http.post(url, { withCredentials: true })
+			.pipe(
+				catchError(AuthenticationService.handleError)
+			);
 	}
 }

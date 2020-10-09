@@ -6,3 +6,4 @@
 - Ajouter des aides à la navigation entre les pages (album edit --> album view par exemple)
 - Animation de chargement sur le slideshow en attendant que toutes les photos soient chargés
 - Stocker variables de session dans un fichier de config
+- Gérer les images PNG côté serveur (que JPEG pour le moment)

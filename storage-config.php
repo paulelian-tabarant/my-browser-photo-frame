@@ -3,6 +3,6 @@
 	$UPLOAD_MAXSIZE_MB = 5;
 	$UPLOAD_ALLOWED_FORMATS = [
 		"jpg" => "image/jpeg",
-		"png" => "image/png"
+		"jpeg" => "image/jpeg",
 	]
 ?>

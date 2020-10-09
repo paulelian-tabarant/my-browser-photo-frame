@@ -38,7 +38,6 @@ export class UserMenuComponent implements OnInit {
 
 	onLogout() {
 		this.authService.userLogout().subscribe(
-			// TODO: implement logout in authentication service and server
 			() => this.router.navigate([''])
 		);
 	}
